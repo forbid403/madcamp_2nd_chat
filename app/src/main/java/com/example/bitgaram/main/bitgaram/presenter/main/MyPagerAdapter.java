@@ -14,7 +14,6 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     String[] pageNames = {"연락처", "갤러리", "미정"};
 
     private static int NUM_PAGES = 3;
-
     public MyPagerAdapter(FragmentManager fragmentManager){
         super(fragmentManager);
     }
