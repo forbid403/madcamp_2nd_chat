@@ -1,19 +1,12 @@
 package com.example.bitgaram.main.bitgaram.presenter.main;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.bitgaram.R;
-import com.example.bitgaram.main.bitgaram.presenter.main.fragment.AddressFragment;
-import com.example.bitgaram.main.bitgaram.presenter.main.fragment.GalleryFrament;
-import com.example.bitgaram.main.bitgaram.presenter.main.presenter.MainPresenter;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity{
@@ -43,7 +36,10 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
+
+        TabLayout tabLayout = findViewById(R.id.viewPagerTab);
+        tabLayout.setupWithViewPager(viewPager);
     }
-    
+
 
 }
