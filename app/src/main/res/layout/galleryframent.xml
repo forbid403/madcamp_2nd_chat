@@ -4,7 +4,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <GridView
+        android:scrollbars="vertical"
         android:id="@+id/gridView"
         android:columnWidth="100dp"
         android:numColumns="auto_fit"
