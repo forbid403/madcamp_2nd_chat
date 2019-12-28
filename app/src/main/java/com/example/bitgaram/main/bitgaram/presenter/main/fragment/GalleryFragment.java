@@ -41,8 +41,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 
 public class GalleryFragment extends Fragment {
-    private static final int GALLERY_REQUEST = 0;
-    private static final String path = "/storage/emulated/0/Android/data/com.example.bitgaram/files/Pictures";
+
     ArrayList<Integer> images = new ArrayList<>(Arrays.asList(R.drawable.cat1, R.drawable.cat2, R.drawable.cat3, R.drawable.cat4, R.drawable.cat5,
             R.drawable.cat6, R.drawable.dog1, R.drawable.dog2, R.drawable.dog3, R.drawable.dog4,
             R.drawable.dog5, R.drawable.dog6));
@@ -67,40 +66,9 @@ public class GalleryFragment extends Fragment {
         gallery = (GridView)rootView.findViewById(R.id.gridView);
         gridAdapter = new GalleryGridAdapter(getContext(), R.layout.imagecell, images);
         gallery.setAdapter(gridAdapter);
-
-        FloatingActionButton fbtn = (FloatingActionButton)rootView.findViewById(R.id.fab);
-        fbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                startActivityForResult(intent, GALLERY_REQUEST);
-            }
-        });
         return rootView;
     }
 
-    private boolean checkPermissions(String permission[]){
 
-        for(String cur : permission){
-            if(ContextCompat.checkSelfPermission(getContext(), cur)!= PackageManager.PERMISSION_GRANTED){
-                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), cur)){}else{
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == GALLERY_REQUEST){
-            String permissions[] = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-            if(!checkPermissions(permissions)){
-                ActivityCompat.requestPermissions(getActivity(), permissions, 1);
-            }
-
-        }
-    }
 
 }

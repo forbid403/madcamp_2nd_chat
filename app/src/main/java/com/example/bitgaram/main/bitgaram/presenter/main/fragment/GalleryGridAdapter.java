@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -65,6 +66,7 @@ public class GalleryGridAdapter extends BaseAdapter{
 
                 LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View popup = layoutInflater.inflate(R.layout.imagedetail, null);
+                popup.setAnimation(AnimationUtils.loadAnimation(context, R.anim.pull_in));
                 popup.setBackground(ContextCompat.getDrawable(context, images.get(position)));
                 final PopupWindow popupWindow = new PopupWindow(popup, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
@@ -79,12 +81,10 @@ public class GalleryGridAdapter extends BaseAdapter{
                     }
                 });
 
-
             }
         });
 
         return convertView;
     }
-
-
+    
 }
