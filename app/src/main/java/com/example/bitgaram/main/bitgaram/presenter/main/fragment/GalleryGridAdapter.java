@@ -68,7 +68,6 @@ public class GalleryGridAdapter extends BaseAdapter{
 
                 popupWindow.setFocusable(true);
                 v.setAlpha(0.5F);
-
                 popup.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
