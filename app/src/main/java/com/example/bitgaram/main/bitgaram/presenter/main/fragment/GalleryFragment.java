@@ -26,8 +26,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.bitgaram.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-<<<<<<< HEAD
-=======
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -41,7 +39,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
->>>>>>> 21cc62aa026cd5d560ee79cbeef578e33615402a
 
 public class GalleryFragment extends Fragment {
 
