@@ -17,6 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".main.bitgaram.presenter.main.util.SwipeListener" />
     </application>
 
 </manifest>

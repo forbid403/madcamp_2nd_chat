@@ -3,26 +3,21 @@ package com.example.bitgaram.main.bitgaram.presenter.main.fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
 import com.example.bitgaram.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class GalleryGridAdapter extends BaseAdapter{
@@ -65,11 +60,12 @@ public class GalleryGridAdapter extends BaseAdapter{
             public void onClick(View v) {
 
                 LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View popup = layoutInflater.inflate(R.layout.imagedetail, null);
+                final View popup = layoutInflater.inflate(R.layout.imagedetail, null);
                 popup.setAnimation(AnimationUtils.loadAnimation(context, R.anim.pull_in));
-                popup.setBackground(ContextCompat.getDrawable(context, images.get(position)));
+                popup.findViewById(R.id.imagedetail).setBackground(ContextCompat.getDrawable(context, images.get(position)));
                 final PopupWindow popupWindow = new PopupWindow(popup, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+
                 popupWindow.setFocusable(true);
                 v.setAlpha(0.5F);
 
@@ -80,11 +76,11 @@ public class GalleryGridAdapter extends BaseAdapter{
                         return true;
                     }
                 });
-
             }
         });
 
         return convertView;
     }
-    
+
+
 }
