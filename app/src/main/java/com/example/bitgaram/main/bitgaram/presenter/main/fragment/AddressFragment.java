@@ -64,7 +64,6 @@ public class AddressFragment extends Fragment {
                 AddressManager.SaveJson(AddressManager.AddressToJson(addresses),getContext());
             }
         });
-
         return rootView;
-}
+    }
 }
