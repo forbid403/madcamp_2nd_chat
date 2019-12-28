@@ -21,13 +21,16 @@ import androidx.core.content.ContextCompat;
 
 import com.example.bitgaram.R;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class GalleryGridAdapter extends BaseAdapter{
     LayoutInflater inflater;
     int layout;
-    int images[];
+    ArrayList<Integer> images;
     Context context;
 
-    public GalleryGridAdapter(Context context, int layout, int[] img){
+    public GalleryGridAdapter(Context context, int layout, ArrayList<Integer> img){
         this.layout = layout;
         this.images = img;
         this.context = context;
@@ -36,12 +39,12 @@ public class GalleryGridAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return images.length;
+        return images.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return images[position];
+        return images.get(position);
     }
 
     @Override
@@ -53,7 +56,7 @@ public class GalleryGridAdapter extends BaseAdapter{
     public View getView(final int position, View convertView, final ViewGroup parent) {
         if(convertView == null) convertView = inflater.inflate(layout, null);
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.imageCell);
-        imageView.setImageResource(images[position]);
+        imageView.setImageResource(images.get(position));
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -62,7 +65,7 @@ public class GalleryGridAdapter extends BaseAdapter{
 
                 LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View popup = layoutInflater.inflate(R.layout.imagedetail, null);
-                popup.setBackground(ContextCompat.getDrawable(context, images[position]));
+                popup.setBackground(ContextCompat.getDrawable(context, images.get(position)));
                 final PopupWindow popupWindow = new PopupWindow(popup, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
                 popupWindow.setFocusable(true);
