@@ -1,16 +1,25 @@
 package com.example.bitgaram.main.bitgaram.presenter.main.presenter;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
+import androidx.viewpager.widget.ViewPager;
 
-import com.example.bitgaram.R;
-import com.example.bitgaram.main.bitgaram.presenter.main.presenter.MainContract;
-
-public class MainPresenter implements MainContract.Presenter {
-
+public class MainPresenter implements MainContract.Presenter, ViewPager.OnPageChangeListener {
     private MainContract.View view;
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
 
     @Override
     public void attachView(MainContract.View view) {
@@ -21,7 +30,4 @@ public class MainPresenter implements MainContract.Presenter {
     public void detachView() {
         this.view = null;
     }
-
-
-
 }

@@ -7,35 +7,36 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 
 import com.example.bitgaram.R;
+import com.example.bitgaram.main.bitgaram.presenter.main.presenter.MainContract;
+import com.example.bitgaram.main.bitgaram.presenter.main.presenter.MainPresenter;
 import com.google.android.material.tabs.TabLayout;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements MainContract.View {
+
+    private MainContract.Presenter presenter;
     FragmentPagerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        presenter = new MainPresenter();
+        presenter.attachView(this);
+
+        setTabViewPager();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
+    }
+
+    void setTabViewPager(){
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewPager);
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
         TabLayout tabLayout = findViewById(R.id.viewPagerTab);
         tabLayout.setupWithViewPager(viewPager);
