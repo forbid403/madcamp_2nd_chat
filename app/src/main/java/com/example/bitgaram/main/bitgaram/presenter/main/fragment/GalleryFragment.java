@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.bitgaram.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class GalleryFragment extends Fragment {
     int images[] = {R.drawable.cat1, R.drawable.cat2, R.drawable.cat3, R.drawable.cat4, R.drawable.cat5,
@@ -33,6 +34,7 @@ public class GalleryFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.galleryframent, container, false);
         GridView gallery = (GridView)rootView.findViewById(R.id.gridView);
         gallery.setAdapter(new GalleryGridAdapter(getContext(), R.layout.imagecell, images));
+
         return rootView;
     }
 }
