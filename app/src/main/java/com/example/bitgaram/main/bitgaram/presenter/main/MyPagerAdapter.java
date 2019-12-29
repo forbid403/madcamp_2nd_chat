@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.bitgaram.main.bitgaram.presenter.main.fragment.AddressFragment;
+import com.example.bitgaram.main.bitgaram.presenter.main.fragment.FindRelativeFragment;
 import com.example.bitgaram.main.bitgaram.presenter.main.fragment.GalleryFragment;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return GalleryFragment.newInstance();
             case 2:
-                return GalleryFragment.newInstance();
+                return FindRelativeFragment.newInstance();
 
             default: return null;
 
