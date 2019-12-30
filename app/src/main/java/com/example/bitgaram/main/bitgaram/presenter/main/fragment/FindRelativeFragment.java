@@ -1,7 +1,7 @@
 package com.example.bitgaram.main.bitgaram.presenter.main.fragment;
 
-import android.app.Activity;
-import android.icu.text.IDNA;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,28 +9,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.bitgaram.R;
-import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-import io.socket.client.IO;
-import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class FindRelativeFragment extends Fragment {
+    String phoneNumber = getContext().getSharedPreferences("savedData", Context.MODE_PRIVATE).getString("phoneNumber", "01031241057");
+    NetworkManager networkManager = NetworkManager.newInstance(phoneNumber);
+
     public static FindRelativeFragment newInstance(){
         FindRelativeFragment frg = new FindRelativeFragment();
         return frg;
@@ -44,6 +41,7 @@ public class FindRelativeFragment extends Fragment {
         Button connectToSever = rootView.findViewById(R.id.connectToServerBtn);
         final EditText inputPhoneNumber = rootView.findViewById(R.id.inputPhoneNumber);
         final TextView outputResult = rootView.findViewById((R.id.resultRelative));
+        final ImageView outputImage = rootView.findViewById(R.id.profileImage);
 
         connectToSever.setOnClickListener(new View.OnClickListener() {
 
@@ -51,21 +49,23 @@ public class FindRelativeFragment extends Fragment {
             public void onClick(View v) {
                 final StringBuilder outputString = new StringBuilder();
 
-                NetworkManager.QueryRelative("01031241057", inputPhoneNumber.getText().toString(), new Emitter.Listener() {
+                networkManager.QueryRelative(phoneNumber, inputPhoneNumber.getText().toString(), new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
                         JSONArray result = (JSONArray) args[0];
-                        ArrayList<Information> resultList = NetworkManager.ServerResultToInformation(result);
+                        final ArrayList<InformationData> resultList = NetworkManager.ResultToInformationArrayList(result);
 
-                        for(Information info : resultList) {
+                        for(InformationData info : resultList) {
                             outputString.append("Name : " + info.name + "\n" + "Message : " + info.message + "\n");
                         }
 
+                        //this is debug purpose only
                         getActivity().runOnUiThread(new Runnable() {
                                                         @Override
                                                         public void run() {
                                                             Log.d("debug Server Result", outputString.toString());
                                                             outputResult.setText(outputString.toString());
+                                                            outputImage.setImageBitmap(InformationData.StringToBitmap(resultList.get(0).profilePicture));
                                                         }
                                                     });
                     }

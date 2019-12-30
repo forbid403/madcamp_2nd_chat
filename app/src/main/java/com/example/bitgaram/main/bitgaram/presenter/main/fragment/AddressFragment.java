@@ -20,6 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 public class AddressFragment extends Fragment {
+    NetworkManager networkManager = NetworkManager.newInstance("01031241057");
     private ArrayList<AddressData> addresses;
 
     public static AddressFragment newInstance(){
@@ -62,6 +63,10 @@ public class AddressFragment extends Fragment {
 
                 //주소록을 JSON 파일로 동기화
                 AddressManager.SaveJson(AddressManager.AddressToJson(addresses),getContext());
+
+                //주소록 정보 수정을 서버에 올림
+                networkManager.ChangeRelative(addresses);
+                networkManager.ChangeInformation(InformationData.debugInformation(getContext()));
             }
         });
         return rootView;

@@ -1,19 +1,15 @@
 package com.example.bitgaram.main.bitgaram.presenter.main.fragment;
 
-import android.icu.text.IDNA;
-import android.net.Network;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.List;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -23,9 +19,50 @@ public class NetworkManager {
     private static final String SERVER_ADDRESS = "http://192.168.0.82:8081";
     private static final String SERVER_RESULT = "result";
     private static final String CLIENT_QUERY = "query";
+    private static final String CLIENT_PHONE = "clientPhoneNumber";
+    private static final String CLIENT_CHANGE_INFORMATION = "changeInfo";
+    private static final String CLIENT_CHANGE_RELATIVE = "changeRelative";
+    public String phoneNumber = "{}";
+    Socket mSocket;
 
-    public void SyncPhoneWithServer() {
+    private static NetworkManager singleton;
 
+    public static NetworkManager newInstance(String phoneNumber) {
+        if(singleton == null) {
+            singleton = new NetworkManager(phoneNumber);
+            return singleton;
+        }
+        else
+            return singleton;
+    }
+
+    public void Connect() {
+        if(mSocket == null) {
+            try {
+                mSocket = IO.socket(SERVER_ADDRESS);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+        if(mSocket.connected())
+            return;
+
+        try {
+            mSocket.connect();
+            mSocket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    mSocket.emit(CLIENT_PHONE, phoneNumber);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private NetworkManager(final String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        Connect();
     }
 
     //Usage
@@ -34,40 +71,52 @@ public class NetworkManager {
     이 함수는 서버와 연결하여 resultListen 을 표시하는 곳에 이용된다.
     따라서 ResultListner 에 해당하는 소켓 리스너를 반드시 구현하여야 한다.
     */
-    public static void QueryRelative(String source, String dest, Emitter.Listener resultListner) {
-        final Socket mSocket;
-        final String inputQuery = ClientQueryToJson(source, dest);
-
-        try {
-            mSocket = IO.socket(SERVER_ADDRESS);
-            mSocket.connect();
-            //결과값을 서버에게 보내는 리스너
-            mSocket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    mSocket.emit(CLIENT_QUERY, inputQuery);
-                }
-            });
-            //결과 값을 받아서 처리할 내용
-            mSocket.on(SERVER_RESULT, resultListner);
-        } catch(URISyntaxException e) {
-            e.printStackTrace();
+    public void QueryRelative(final String source, final String dest, Emitter.Listener resultListener) {
+        if(mSocket.connected() == false) {
+            Log.e("Server", "Socket is closed");
+            return;
         }
+
+        String clientQueryToJson = "{ \"source\" : \"" + source + "\", " + "\"dest\" : \"" + dest + "\"}";
+        mSocket.emit(CLIENT_QUERY, clientQueryToJson);
+        //결과 값을 받아서 처리할 내용
+        mSocket.on(SERVER_RESULT, resultListener);
     }
 
-    //서버에 관련한 메세지 처리시 JSON 파일과 자료형으로 바꾸어주는 메소드를 정의한다.
-    public static String ClientQueryToJson(String source, String dest) {
-        return "{ source : '" + source + "', " + "dest : '" + dest + "'}";
+    //개인 정보 수정
+    public void ChangeInformation(InformationData info) {
+        if(mSocket.connected() == false) {
+            Log.e("Server", "Socket is closed");
+            return;
+        }
+
+        mSocket.emit(CLIENT_CHANGE_INFORMATION, info.InformationToJson());
     }
 
-    public static ArrayList<Information> ServerResultToInformation(JSONArray resultJSON) {
+    //연결 관계 수정
+    public void ChangeRelative(final ArrayList<AddressData> addresses) {
+        if(mSocket.connected() == false) {
+            Log.e("Server", "Socket is closed");
+            return;
+        }
+
+        //결과값을 서버에게 보내는 리스너
+        String addressJSON = "{ \"source\" : \"" + phoneNumber + "\", \"dest\" : [" ;
+        for (int i = 0; i < addresses.size(); i++) {
+            addressJSON = addressJSON + " \"" + addresses.get(i).phone + "\"";
+            if(i != (addresses.size()-1)) {
+                addressJSON = addressJSON + ",";
+            }
+        }
+        addressJSON = addressJSON + "]}";
+
+        mSocket.emit(CLIENT_CHANGE_RELATIVE, addressJSON);
+    }
+
+    public static ArrayList<InformationData> ResultToInformationArrayList(JSONArray resultJSON) {
         Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<Information>>(){}.getType();
-        ArrayList<Information> result = gson.fromJson(resultJSON.toString(), type);
-        //Debugging usage
-        for(Information info : result) {
-            Log.d("Received Data : ", info.name + "/" + info.message);
-        }
+        Type type = new TypeToken<ArrayList<InformationData>>(){}.getType();
+        ArrayList<InformationData> result = gson.fromJson(resultJSON.toString(), type);
 
         return result;
     }
