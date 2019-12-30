@@ -12,7 +12,7 @@ import com.example.bitgaram.main.bitgaram.presenter.main.presenter.MainPresenter
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
-
+    Environment environment = Environment.newInstance(this.getApplicationContext());
     private MainContract.Presenter presenter;
     FragmentPagerAdapter adapter;
 
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        environment.SaveEnvironment(getApplicationContext());
         presenter.detachView();
     }
 
@@ -41,6 +42,4 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         TabLayout tabLayout = findViewById(R.id.viewPagerTab);
         tabLayout.setupWithViewPager(viewPager);
     }
-
-
 }
