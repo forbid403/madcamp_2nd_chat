@@ -1,201 +1,59 @@
-const listUtil = require('./linkedlist.js')
 const queueUtil = require('./queue.js')
-const relativeModel = require('./android.js')
+const disjointSetUtil = require('./disjoint_set.js')
+const disjoint_set = new disjointSetUtil.DisjointSet()
 const queue = new queueUtil.Queue()
 const checked = new Set()
-exports.bfs = bfs
-const tempData1 = {
-    "_id": "5e0997d5b6cde30684cf8816",
-    "dest": [
-        "01012341234",
-        "01012349876",
-        "01031241057",
-        "01031241234",
-        "01032411234",
-        "01033241123",
-        "01043211262",
-        "01044231134",
-        "010472817283",
-        "01058853342",
-        "01066763393",
-        "01068851234",
-        "01090982192",
-        "123141212312",
-        "273327332373"
-    ],
-    "source": "01031241057",
-    "__v": 0
-}
-const tempData2 = {
-    "_id": "5e0997d5b6cde30684cf8816",
-    "dest": [
-        "01012341234",
-        "01012349876",
-        "01031241057",
-        "01031241234",
-        "01032411234",
-        "01033241123",
-        "01043211262",
-        "01044231134",
-        "010472817283",
-        "01058853342",
-        "01066763393",
-        "01068851234",
-        "01090982192",
-        "123141212312",
-        "273327332373"
-    ],
-    "source": "01012345678",
-    "__v": 0
-}
-const tempData3 = {
-    "_id": "5e0997d5b6cde30684cf8816",
-    "dest": [
-        "01012341234",
-        "01012349876",
-        "01031241057",
-        "01031241234",
-        "01032411234",
-        "01033241123",
-        "01043211262",
-        "01044231134",
-        "010472817283",
-        "01058853342",
-        "01066763393",
-        "01068851234",
-        "01090982192",
-        "123141212312",
-        "273327332373"
-    ],
-    "source": "01099999999",
-    "__v": 0
-}
-const tempData4 = {
-    "_id": "5e0997d5b6cde30684cf8816",
-    "dest": [
-        "01012341234",
-        "01012349876",
-        "01031241057",
-        "01031241234",
-        "01032411234",
-        "01033241123",
-        "01043211262",
-        "01044231134",
-        "010472817283",
-        "01058853342",
-        "01066763393",
-        "01068851234",
-        "01090982192",
-        "123141212312",
-        "273327332373"
-    ],
-    "source": "01088888888",
-    "__v": 0
-}
-const tempData5 = {
-    "_id": "5e0997d5b6cde30684cf8816",
-    "dest": [
-        "01012341234",
-        "01012349876",
-        "01031241057",
-        "01031241234",
-        "01032411234",
-        "01033241123",
-        "01043211262",
-        "01044231134",
-        "010472817283",
-        "01058853342",
-        "01066763393",
-        "01068851234",
-        "01090982192",
-        "123141212312",
-        "273327332373"
-    ],
-    "source": "01077777777",
-    "__v": 0
-}
-//make linked list
-const dummyData = [tempData1, tempData2, tempData3, tempData4, tempData5]
+let flag = false
+function bfs(source, target, map, callback) {
+    //q에 source 넣기
+    queue.push(source)
+    disjoint_set.make_set(source)
+    //bfs
+    while (!queue.empty()) {
 
-/* await informationModel.findOne({phone : "01031241057"}).exec(function(err,res) {
-     profilePictureDebug = json array => 친구들 휴대폰 번호
- */
+        if(flag == true){
+            break
+        }
+        //dequeue top
+        const top = queue.pop()
 
-async function bfs(relativeModel, psource, pdest) {
-    MergeRelative(relativeModel, psource).then(function (list) {
-        console.log(list.dest);
+        //map에서 dest 얻기
+        if (map.get(top) !== undefined) {
 
-        queue.push(list)
+            map.get(top).some((v) => {
+                //찾으면
+                if (v === target) {
+                    console.log("FOUND!" + target)
+                   
+                    //callback
+                    //callback(disjoint_set.getSet())
+                    flag = true
+                    disjoint_set.make_set(v)
+                    disjoint_set.union(top, v)
+                    
+                    //경로 출력
+                    disjoint_set.getSet()
+                    return true;
+                }
+                //set에 없으면
+                if (!checked.has(v)) {
+                    //q 삽입
+                    queue.push(v)
 
-        var index = 0;
-        var loopCount = 1;
-        var depth = 0;
-
-        al(queue);
-
-        function al(queue) {
-            index++;
-            if (loopCount <= index) {
-                depth = depth + 1
-                index = 0;
-            }
-            const top = queue.pop()
-
-            console.log("current node " + top.source + "  index: " + index);
-
-            if (checked.has(top.source)) {
-                return;
-            }
-
-            loopCount = top.dest.length;
-
-            var adjacent = new Array();
-            var currentHead = top.currentHead;
-
-            forloop(0, top.dest.length).then(function (resolve, reject) {
-                if (queue.empty()) {
+                    //disjoint 삽입
+                    disjoint_set.make_set(v)
+                    disjoint_set.union(top, v)
 
                 }
-                else {
-                    al(queue);
-                }
+
+
             });
 
-            function forloop(index, length) {
-                return new Promise(function (resolve, reject) {
-                    if (top.dest[index] == pdest) {
-                        console.log("FOUND!" + pdest)
-                        resolve();
-                    }
-                    MergeRelative(relativeModel, top.dest[index]).then(function (result) {
-                        if (result != null) {
-                            queue.push(result);
-                            resolve();
-                        }
-                        if (index => length) {
-                            resolve();
-                        }
-
-                        index++;
-                        forloop(index, length);
-                    })
-                })
-
-            }
-
-            checked.add(top.dest);
         }
+        checked.add(top)
 
-        if (depth > 0) {
-            console.log("촌 수 : " + depth)
-        }
-    })
+
+    }
 }
 
-function MergeRelative(prelativeModel, psource) {
-    return new Promise(async function (resolve, reject) {
-        prelativeModel.findOne({ source: psource }).exec(async function (err, res) {
-            resolve(res);
-        })
-    })
-}
+exports.bfs = bfs
