@@ -14,10 +14,9 @@ class DisjointSet{
     find(x){
         this.ret.push(x)
         if(this.array[x] == x) {
-            console.log(this.ret)
             return this.ret
         }
-        this.x = this.find(this.array[x])
+        return this.find(this.array[x])
     }
     getSet(){
         console.log(this.array) 
