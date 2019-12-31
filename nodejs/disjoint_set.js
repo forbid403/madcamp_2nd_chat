@@ -2,6 +2,7 @@ class DisjointSet{
 
     constructor(){
         this.array = []
+        this.ret = []
     }
     make_set(x){
         this.array[x] = x
@@ -11,8 +12,12 @@ class DisjointSet{
         this.array[y] = x
     }
     find(x){
-        if(this.array[x] == x) return x
-        return this.array[x] = this.find(this.array[x])
+        this.ret.push(x)
+        if(this.array[x] == x) {
+            console.log(this.ret)
+            return this.ret
+        }
+        this.x = this.find(this.array[x])
     }
     getSet(){
         console.log(this.array) 
