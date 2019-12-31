@@ -1,7 +1,5 @@
 package com.example.bitgaram.main.bitgaram.presenter.main.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.bitgaram.R;
-import com.example.bitgaram.main.bitgaram.presenter.main.Environment;
+import com.example.bitgaram.main.bitgaram.presenter.main.EnvironmentData;
 
 import org.json.JSONArray;
 
@@ -26,7 +24,7 @@ import java.util.ArrayList;
 import io.socket.emitter.Emitter;
 
 public class FindRelativeFragment extends Fragment {
-    String phoneNumber = Environment.phoneNumber;
+    String phoneNumber = EnvironmentData.phoneNumber;
     NetworkManager networkManager = NetworkManager.newInstance(phoneNumber);
 
     public static FindRelativeFragment newInstance(){

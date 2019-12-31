@@ -3,21 +3,21 @@ package com.example.bitgaram.main.bitgaram.presenter.main;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class Environment {
+public class EnvironmentData {
     public static final String PREFERENCENAME = "saveData";
-    public static Environment singleton;
+    public static EnvironmentData singleton;
     public static String phoneNumber;
 
-    public static Environment newInstance(Context context) {
+    public static EnvironmentData newInstance(Context context) {
         if(singleton == null) {
-            singleton = new Environment();
+            singleton = new EnvironmentData();
         }
         singleton.LoadEnvironment(context);
 
         return singleton;
     }
 
-    private Environment() {
+    private EnvironmentData() {
 
     }
 

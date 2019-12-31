@@ -12,7 +12,7 @@ import com.example.bitgaram.main.bitgaram.presenter.main.presenter.MainPresenter
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
-    Environment environment = Environment.newInstance(this.getApplicationContext());
+    EnvironmentData environment;
     private MainContract.Presenter presenter;
     FragmentPagerAdapter adapter;
 
@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     void setTabViewPager(){
+        environment = EnvironmentData.newInstance(this.getApplicationContext());
+        environment.phoneNumber = "3482";
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewPager);
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
