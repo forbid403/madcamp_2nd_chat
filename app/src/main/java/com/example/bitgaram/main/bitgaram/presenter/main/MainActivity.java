@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.bitgaram.R;
+import com.example.bitgaram.main.bitgaram.presenter.main.fragment.UserSession;
 import com.example.bitgaram.main.bitgaram.presenter.main.presenter.MainContract;
 import com.example.bitgaram.main.bitgaram.presenter.main.presenter.MainPresenter;
 import com.google.android.material.tabs.TabLayout;
