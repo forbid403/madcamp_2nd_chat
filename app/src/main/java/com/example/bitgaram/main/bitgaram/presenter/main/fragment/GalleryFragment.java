@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class GalleryFragment extends Fragment {
 
     private GridView gallery;
     private GalleryGridAdapter gridAdapter;
+    private Button signUpBtn;
 
     public static GalleryFragment newInstance(){
         GalleryFragment galleryFragment = new GalleryFragment();
@@ -67,6 +69,16 @@ public class GalleryFragment extends Fragment {
         gallery = (GridView)rootView.findViewById(R.id.gridView);
         gridAdapter = new GalleryGridAdapter(getContext(), R.layout.imagecell, images);
         gallery.setAdapter(gridAdapter);
+
+        signUpBtn = (Button)rootView.findViewById(R.id.signup);
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         return rootView;
     }
