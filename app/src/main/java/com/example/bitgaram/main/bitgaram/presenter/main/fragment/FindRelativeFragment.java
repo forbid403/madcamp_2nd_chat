@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.bitgaram.R;
 import com.example.bitgaram.main.bitgaram.presenter.main.EnvironmentData;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 
@@ -43,7 +44,6 @@ public class FindRelativeFragment extends Fragment {
         final ImageView outputImage = rootView.findViewById(R.id.profileImage);
 
         connectToSever.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 final StringBuilder outputString = new StringBuilder();
@@ -53,10 +53,23 @@ public class FindRelativeFragment extends Fragment {
                     public void call(Object... args) {
                         JSONArray result = (JSONArray) args[0];
                         final ArrayList<InformationData> resultList = NetworkManager.ResultToInformationArrayList(result);
+                        Log.d("size",String.valueOf(resultList.size()));
 
                         for(InformationData info : resultList) {
-                            outputString.append("Name : " + info.name + "\n" + "Message : " + info.message + "\n");
+                            if(info.name == "None") {
+                                outputString.append("회원이 아닙니다");
+                                continue;
+                            }
+                            else if(info.name == "Not found") {
+                                outputString.append("ㅠㅠ 천생연분인가봐요 서로를 두 분만 아시네요");
+                                continue;
+                            } else {
+                                outputString.append("Name : " + info.name + "\n" + "Message : " + info.message + "\n");
+                            }
+
                         }
+
+                        Log.d("result", new Gson().toJson(result));
 
                         //this is debug purpose only
                         getActivity().runOnUiThread(new Runnable() {
@@ -64,7 +77,6 @@ public class FindRelativeFragment extends Fragment {
                                                         public void run() {
                                                             Log.d("debug Server Result", outputString.toString());
                                                             outputResult.setText(outputString.toString());
-                                                            outputImage.setImageBitmap(InformationData.StringToBitmap(resultList.get(0).profilePicture));
                                                         }
                                                     });
                     }

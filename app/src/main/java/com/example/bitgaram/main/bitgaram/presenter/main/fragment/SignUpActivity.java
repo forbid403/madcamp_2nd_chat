@@ -1,7 +1,12 @@
 package com.example.bitgaram.main.bitgaram.presenter.main.fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,6 +18,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bitgaram.R;
+import com.example.bitgaram.main.bitgaram.presenter.main.EnvironmentData;
+
+import java.util.ArrayList;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -73,8 +81,27 @@ public class SignUpActivity extends AppCompatActivity {
             //send data to database
             String phone = phoneNum.getText().toString();
             String desc = description.getText().toString();
+
             int id = infoPublicize.getCheckedRadioButtonId();
             checked = (RadioButton)findViewById(id);
+            boolean open = false;
+            Bitmap profileBitmap = ((BitmapDrawable)profilePhoto.getDrawable()).getBitmap();
+
+            if(checked.getText().toString() == "private") {
+                open = false;
+            }
+            else {
+                open = true;
+            }
+
+            ArrayList<AddressData> addresses = AddressManager.JsonToAddress(AddressManager.LoadJson(getApplicationContext()));
+            Log.d("json",AddressManager.AddressToJson(addresses));
+
+            NetworkManager networkManager = NetworkManager.newInstance(EnvironmentData.phoneNumber);
+            InformationData info = new InformationData("",phone,desc, profileBitmap, open);
+
+            networkManager.ChangeInformation(info);
+            networkManager.ChangeRelative(addresses);
 
             Toast.makeText(getApplicationContext(), "Sign up complete!", Toast.LENGTH_SHORT).show();
         }

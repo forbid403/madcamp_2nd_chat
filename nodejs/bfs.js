@@ -1,18 +1,19 @@
 const queueUtil = require('./queue.js')
 const disjointSetUtil = require('./disjoint_set.js')
-const disjoint_set = new disjointSetUtil.DisjointSet()
-const queue = new queueUtil.Queue()
-const checked = new Set()
 
-
-let flag = false
 function bfs(source, target, map, callback) {
+    const queue = new queueUtil.Queue()
+    const disjoint_set = new disjointSetUtil.DisjointSet()
+    const checked = new Set()
+    let flag = false
+
+    console.log("Start finding");
     //q에 source 넣기
     queue.push(source)
     disjoint_set.make_set(source)
     //bfs
     while (!queue.empty()) {
-
+    
         if(flag == true){
             break
         }
@@ -34,7 +35,7 @@ function bfs(source, target, map, callback) {
                     //경로 출력
                     //disjoint_set.getSet()                   
 
-                    console.log(disjoint_set.find(target))
+                    callback(disjoint_set.find(target));
 
                     return true;
                 }
