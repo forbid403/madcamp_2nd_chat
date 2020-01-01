@@ -1,6 +1,7 @@
 package com.example.bitgaram.main.bitgaram.presenter.main.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -124,6 +125,7 @@ public class SignUpActivity extends AppCompatActivity {
     View.OnClickListener signUpListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
             if(!checkSignUp()){
                 return;
             }
@@ -154,6 +156,9 @@ public class SignUpActivity extends AppCompatActivity {
 
             networkManager.ChangeInformation(info);
             networkManager.ChangeRelative(addresses);
+
+            UserSession session = new UserSession(getApplicationContext(), info);
+            session.createUserSession();
 
             Toast.makeText(getApplicationContext(), "Sign up complete!", Toast.LENGTH_SHORT).show();
         }
