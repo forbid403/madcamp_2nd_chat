@@ -64,7 +64,6 @@ public class FindRelativeFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getContext(), "hh", Toast.LENGTH_SHORT).show();
                                 //do listview something
                                 FindRelativeAdapter findAdapter = new FindRelativeAdapter(getContext(), resultList);
                                 outputResult.setAdapter(findAdapter);
