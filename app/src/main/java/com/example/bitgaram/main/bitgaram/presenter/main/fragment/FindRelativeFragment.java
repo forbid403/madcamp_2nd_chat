@@ -1,6 +1,7 @@
 package com.example.bitgaram.main.bitgaram.presenter.main.fragment;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,8 +42,8 @@ public class FindRelativeFragment extends Fragment {
         Button connectToSever = rootView.findViewById(R.id.connectToServerBtn);
         final EditText inputPhoneNumber = rootView.findViewById(R.id.inputPhoneNumber);
         final TextView outputResult = rootView.findViewById((R.id.resultRelative));
-        final ImageView outputImage = rootView.findViewById(R.id.profileImage);
 
+        outputResult.setMovementMethod(new ScrollingMovementMethod());
         connectToSever.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
