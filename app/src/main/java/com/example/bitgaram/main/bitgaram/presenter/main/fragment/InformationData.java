@@ -33,10 +33,6 @@ public class InformationData {
         return "{ \"name\": \"" + name + "\", " + "\"phone\": \"" + phone + "\", " + "\"message\": \"" + message + "\", " + "\"open\": \"" + open + "\", " + "\"profilePicture\": \"" + profilePicture + "\" }";
     }
 
-    public static InformationData debugInformation(Context context) {
-        return new InformationData("Ahn Jun ho", "01031241057", "Hello Word!", ((BitmapDrawable)context.getResources().getDrawable(R.drawable.cat1)).getBitmap() ,false);
-    }
-
     public static String BitmapToString(Bitmap bitmapPicture) {
         String encodedImage;
         bitmapPicture = Bitmap.createScaledBitmap(bitmapPicture, 300, 400, true);

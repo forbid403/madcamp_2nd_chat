@@ -22,8 +22,6 @@ db.once('open', function () {
     LoadData(relativeModel).then(function (result) {
         relativeDBMap = result;
         console.log("Loading relative information completed!");
-        console.log(result);
-        bfs.bfs("10", "17", relativeDBMap, () => { })
     })
 
 });
@@ -58,35 +56,42 @@ io.sockets.on('connection', function (socket) {
         console.log('Client Message : ' + data);
         var source = JSON.parse(data).source; //애플리케이션을 실행한 사람의 번호
         var dest = JSON.parse(data).dest; //찾고자 하는 번호
-        //bfs.bfs(source, dest, relativeDBMap, queryFunction);
-        //디버그로만 사용한다.
-        bfs.bfs("10", "17", relativeDBMap, queryFunction)
-        async function queryFunction(inputArray) {
-            let outputResultArray = new Array();
-            if (inputArray.length == 0) {
-                outputResultArray.push({ "name": "Not found", "message": "Not found", "profilePicture": "Not found" })
-            }
-            let index = 0;
-            for (const item of inputArray) {
-                await informationModel.findOne({ phone: item }).exec(function (err, res) {
-                    index++;
-                    if (res == null) {
-                        outputResultArray.push({ "name": "None", "message": "None", "profilePicture": "None" })
-                    }
-                    else {
-                        let mProfile = res.profilePicture;
-                        let mName = res.name;
-                        let mMessage = res.message;
-
-                        outputResultArray.push({ "name": mName, "message": mMessage, "profilePicture": mProfile })
-                    }
-
-                    if (index == inputArray.length) {
-                        console.log(outputResultArray)
-                        socket.emit('result', outputResultArray);
-                        //socket.emit('result',debugMessage);
-                    }
-                })
+        if(source == "" | dest == "") {
+            console.log("Invalid phone number!")
+        }
+        else {
+            console.log(source);
+            console.log(dest);
+            console.log(relativeDBMap);
+            bfs.bfs(source, dest, relativeDBMap, queryFunction);
+            async function queryFunction(inputArray) {
+                let outputResultArray = new Array();
+                if (inputArray.length == 0) {
+                    outputResultArray.push({ "name": "Not found", "message": "Not found", "profilePicture": "Not found" })
+                    socket.emit('result', outputResultArray)
+                }
+                let index = 0;
+                for (const item of inputArray) {
+                    await informationModel.findOne({ phone: item }).exec(function (err, res) {
+                        index++;
+                        if (res == null) {
+                            outputResultArray.push({ "name": "None", "message": "None", "profilePicture": "None" })
+                        }
+                        else {
+                            let mProfile = res.profilePicture;
+                            let mName = res.name;
+                            let mMessage = res.message;
+    
+                            outputResultArray.push({ "name": mName, "message": mMessage, "profilePicture": mProfile })
+                        }
+    
+                        if (index == inputArray.length) {
+                            console.log(outputResultArray)
+                            socket.emit('result', outputResultArray);
+                            //socket.emit('result',debugMessage);
+                        }
+                    })
+                }
             }
         }
     });
@@ -101,9 +106,9 @@ io.sockets.on('connection', function (socket) {
         checkClient(phoneNum);
         await relativeModel.deleteMany({ source: phoneNum }, function (err, result) { });
         await relativeModel.create(JSON.parse(data));
-        relativeDBMap.set(data.source, data.dest);
+        await relativeModel.update({source:[phoneNum]}, {$pullAll:{dest:[phoneNum]}})
+        relativeDBMap.set(await relativeModel.findOne({phone:phoneNum}));
         console.log("relative is saved")
-        console.log(JSON.parse(data));
     });
 });
 //데이터 베이스 정보 처리

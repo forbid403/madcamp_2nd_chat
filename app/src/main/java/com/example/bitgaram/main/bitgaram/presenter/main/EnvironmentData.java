@@ -26,6 +26,7 @@ public class EnvironmentData {
         SharedPreferences.Editor editor = pref.edit();
 
         editor.putString("phoneNumber", phoneNumber);
+        editor.commit();
     }
 
     public static void LoadEnvironment(Context context) {

@@ -16,13 +16,13 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class NetworkManager {
-    private static final String SERVER_ADDRESS = "http://192.168.0.82:8081";
+    private static final String SERVER_ADDRESS = "http://caee68c7.ngrok.io";
     private static final String SERVER_RESULT = "result";
     private static final String CLIENT_QUERY = "query";
     private static final String CLIENT_PHONE = "clientPhoneNumber";
     private static final String CLIENT_CHANGE_INFORMATION = "changeInfo";
     private static final String CLIENT_CHANGE_RELATIVE = "changeRelative";
-    public String phoneNumber = "{}";
+    public String phoneNumber = "";
     Socket mSocket;
 
     private static NetworkManager singleton;
@@ -32,8 +32,11 @@ public class NetworkManager {
             singleton = new NetworkManager(phoneNumber);
             return singleton;
         }
-        else
+        else {
+            singleton.phoneNumber = phoneNumber;
             return singleton;
+        }
+
     }
 
     public void Connect() {

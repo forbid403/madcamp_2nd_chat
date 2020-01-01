@@ -6,6 +6,7 @@ function bfs(source, target, map, callback) {
     const disjoint_set = new disjointSetUtil.DisjointSet()
     const checked = new Set()
     let flag = false
+    let founded = false;
 
     console.log("Start finding");
     //q에 source 넣기
@@ -13,28 +14,25 @@ function bfs(source, target, map, callback) {
     disjoint_set.make_set(source)
     //bfs
     while (!queue.empty()) {
-    
         if(flag == true){
             break
         }
         //dequeue top
         const top = queue.pop()
-
+        console.log("top : " + top)
         //map에서 dest 얻기
-        if (map.get(top) !== undefined) {
-
+        if (map.get(top) != undefined) {
             map.get(top).some((v) => {
                 //찾으면
                 if (v === target) {
                     console.log("FOUND!" + target)
-
+                
                     flag = true
                     disjoint_set.make_set(v)
                     disjoint_set.union(top, v)
-                    
-                    //경로 출력
-                    //disjoint_set.getSet()                   
 
+                    founded = true;
+                    
                     callback(disjoint_set.find(target));
 
                     return true;
@@ -47,16 +45,16 @@ function bfs(source, target, map, callback) {
                     //disjoint 삽입
                     disjoint_set.make_set(v)
                     disjoint_set.union(top, v)
-
                 }
 
 
             });
-
         }
         checked.add(top)
-
-
+    }
+    if(founded == false) {
+        console.log("Not found!");
+        callback(new Array())
     }
 }
 

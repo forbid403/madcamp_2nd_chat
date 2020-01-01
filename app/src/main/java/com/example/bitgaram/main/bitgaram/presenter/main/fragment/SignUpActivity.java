@@ -144,11 +144,13 @@ public class SignUpActivity extends AppCompatActivity {
                 open = true;
             }
 
+            EnvironmentData.phoneNumber = phone;
+
             ArrayList<AddressData> addresses = AddressManager.JsonToAddress(AddressManager.LoadJson(getApplicationContext()));
             Log.d("json",AddressManager.AddressToJson(addresses));
 
-            NetworkManager networkManager = NetworkManager.newInstance(EnvironmentData.phoneNumber);
-            InformationData info = new InformationData("",phone,desc, profileBitmap, open);
+            NetworkManager networkManager = NetworkManager.newInstance(phone);
+            InformationData info = new InformationData(name,phone,desc, profileBitmap, open);
 
             networkManager.ChangeInformation(info);
             networkManager.ChangeRelative(addresses);

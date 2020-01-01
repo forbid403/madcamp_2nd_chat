@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     void setTabViewPager(){
         environment = EnvironmentData.newInstance(this.getApplicationContext());
-        environment.phoneNumber = "3482";
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewPager);
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);

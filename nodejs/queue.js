@@ -10,9 +10,8 @@ class Queue {
         this.q.push(val)
     }
     pop(){
-        //console.log("popped")
         if(this.q.length !== 0){
-            return this.q.shift()
+            return this.q.shift();
         }
         return null
     }

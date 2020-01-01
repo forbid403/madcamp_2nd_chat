@@ -2,6 +2,7 @@ package com.example.bitgaram.main.bitgaram.presenter.main.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bitgaram.R;
+import com.example.bitgaram.main.bitgaram.presenter.main.EnvironmentData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 public class AddressFragment extends Fragment {
-    NetworkManager networkManager = NetworkManager.newInstance("01031241057");
+    NetworkManager networkManager = NetworkManager.newInstance(EnvironmentData.phoneNumber);
     private ArrayList<AddressData> addresses;
 
     public static AddressFragment newInstance(){
@@ -66,7 +68,6 @@ public class AddressFragment extends Fragment {
 
                 //주소록 정보 수정을 서버에 올림
                 networkManager.ChangeRelative(addresses);
-                networkManager.ChangeInformation(InformationData.debugInformation(getContext()));
             }
         });
         return rootView;
