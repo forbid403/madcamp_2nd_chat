@@ -70,16 +70,6 @@ public class GalleryFragment extends Fragment {
         gridAdapter = new GalleryGridAdapter(getContext(), R.layout.imagecell, images);
         gallery.setAdapter(gridAdapter);
 
-        signUpBtn = (Button)rootView.findViewById(R.id.signup);
-        signUpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), SignUpActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
         return rootView;
     }
 
