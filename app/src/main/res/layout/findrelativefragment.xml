@@ -17,7 +17,7 @@
         android:hint="Debug Enter Phone"
         android:inputType="phone" />
 
-    <TextView
+    <ListView
         android:id="@+id/resultRelative"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
