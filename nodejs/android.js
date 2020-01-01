@@ -77,7 +77,7 @@ io.sockets.on('connection', function (socket){
                         }
                     })
                 } catch(error) {
-                    console.log(error);
+                    console.log(errgor);
                 }
             }
             console.log("outside");
