@@ -31,7 +31,7 @@ import io.socket.emitter.Emitter;
 public class FindRelativeFragment extends Fragment {
     String phoneNumber = EnvironmentData.phoneNumber;
     NetworkManager networkManager = NetworkManager.newInstance(phoneNumber);
-    ArrayList<InformationData> resultList;
+
     public static FindRelativeFragment newInstance(){
         FindRelativeFragment frg = new FindRelativeFragment();
         return frg;
@@ -51,22 +51,22 @@ public class FindRelativeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final StringBuilder outputString = new StringBuilder();
+                final ArrayList<InformationData> resultList = new ArrayList<>();
 
                 networkManager.QueryRelative(phoneNumber, inputPhoneNumber.getText().toString(), new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
                         JSONArray result = (JSONArray) args[0];
-                        resultList = NetworkManager.ResultToInformationArrayList(result);
+                        final ArrayList<InformationData> resultList = NetworkManager.ResultToInformationArrayList(result);
 
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                Toast.makeText(getContext(), "hh", Toast.LENGTH_SHORT).show();
                                 //do listview something
-
                                 FindRelativeAdapter findAdapter = new FindRelativeAdapter(getContext(), resultList);
                                 outputResult.setAdapter(findAdapter);
-
-
+                                outputResult.deferNotifyDataSetChanged();
                             }
                         });
 

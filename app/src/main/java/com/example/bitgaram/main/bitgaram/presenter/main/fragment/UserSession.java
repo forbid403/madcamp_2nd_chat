@@ -19,6 +19,12 @@ public class UserSession {
     Context mContext = null;
     InformationData mData;
 
+    public UserSession(Context context) {
+        mContext = context;
+        sf = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        editor = sf.edit();
+    }
+
     public UserSession(Context context, InformationData data) {
         mContext = context;
         sf = mContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -43,6 +49,12 @@ public class UserSession {
     public boolean checkSignUp(){
         if(!this.isUserSignUp()){
             Intent i = new Intent(mContext, SignUpActivity.class);
+            // Closing all the Activities
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            // Add new Flag to start new Activity
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
             mContext.startActivity(i);
             return true;
         }
