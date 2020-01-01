@@ -70,6 +70,7 @@ public class GalleryFragment extends Fragment {
         gridAdapter = new GalleryGridAdapter(getContext(), R.layout.imagecell, images);
         gallery.setAdapter(gridAdapter);
 
+
         return rootView;
     }
 

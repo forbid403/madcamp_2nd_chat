@@ -53,6 +53,8 @@ public class FindRelativeFragment extends Fragment {
                 final StringBuilder outputString = new StringBuilder();
                 final ArrayList<InformationData> resultList = new ArrayList<>();
 
+                phoneNumber = EnvironmentData.phoneNumber;
+
                 networkManager.QueryRelative(phoneNumber, inputPhoneNumber.getText().toString(), new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {

@@ -9,6 +9,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,6 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
-        getSupportActionBar().hide();
 
         profilePhoto = (ImageView) findViewById(R.id.profilePhoto);
         profilePhoto.setBackground(new ShapeDrawable(new OvalShape()));
@@ -147,6 +147,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
 
             EnvironmentData.phoneNumber = phone;
+            EnvironmentData.SaveEnvironment(getApplicationContext());
 
             ArrayList<AddressData> addresses = AddressManager.JsonToAddress(AddressManager.LoadJson(getApplicationContext()));
             Log.d("json",AddressManager.AddressToJson(addresses));
