@@ -34,11 +34,8 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean isAuthorized = false;
     private Button signUpBtn;
     private RadioButton checked;
-<<<<<<< HEAD
-=======
     private EditText nameEdit;
     private static final int REQUEST_CODE = 999;
->>>>>>> signup
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -129,10 +126,7 @@ public class SignUpActivity extends AppCompatActivity {
             String phone = phoneNum.getText().toString();
             String desc = description.getText().toString();
             int id = infoPublicize.getCheckedRadioButtonId();
-<<<<<<< HEAD
-=======
             String name = nameEdit.getText().toString();
->>>>>>> signup
             checked = (RadioButton)findViewById(id);
 
             Toast.makeText(getApplicationContext(), "Sign up complete!", Toast.LENGTH_SHORT).show();
