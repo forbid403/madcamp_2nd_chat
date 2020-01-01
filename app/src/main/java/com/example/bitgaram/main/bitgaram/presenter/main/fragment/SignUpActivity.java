@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Button authorizationBtn;
     private boolean isAuthorized = false;
     private Button signUpBtn;
+    private RadioButton checked;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,7 +73,8 @@ public class SignUpActivity extends AppCompatActivity {
             //send data to database
             String phone = phoneNum.getText().toString();
             String desc = description.getText().toString();
-
+            int id = infoPublicize.getCheckedRadioButtonId();
+            checked = (RadioButton)findViewById(id);
 
             Toast.makeText(getApplicationContext(), "Sign up complete!", Toast.LENGTH_SHORT).show();
         }
