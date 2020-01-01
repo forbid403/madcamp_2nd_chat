@@ -121,6 +121,7 @@ public class NetworkManager {
         Type type = new TypeToken<ArrayList<InformationData>>(){}.getType();
         ArrayList<InformationData> result = gson.fromJson(resultJSON.toString(), type);
 
+
         return result;
     }
 }

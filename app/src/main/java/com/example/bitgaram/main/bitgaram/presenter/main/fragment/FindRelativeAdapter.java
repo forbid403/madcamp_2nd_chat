@@ -1,12 +1,18 @@
 package com.example.bitgaram.main.bitgaram.presenter.main.fragment;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.bitgaram.R;
 
@@ -38,15 +44,22 @@ class FindRelativeAdapter extends BaseAdapter {
         return position;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = mInflater.inflate(R.layout.findrelative_item, null);
 
-        ImageView relProfileImage = (ImageView)view.findViewById(R.id.relProfile);
-        TextView relPhoneNum = (TextView)view.findViewById(R.id.relPhoneNum);
+        if(convertView == null){
+            convertView = mInflater.inflate(R.layout.findrelative_item, null);
+            ImageView relProfileImage = (ImageView)convertView.findViewById(R.id.relProfile);
+            TextView relName = (TextView)convertView.findViewById(R.id.relName);
+            TextView relMessage = (TextView)convertView.findViewById(R.id.relMessage);
 
-        relPhoneNum.setText(datas.get(position).phone);
+            relName.setText(datas.get(position).name);
+            relMessage.setText(datas.get(position).message);
+            relProfileImage.setBackground(new BitmapDrawable(InformationData.StringToBitmap(datas.get(position).profilePicture)));
+            this.notifyDataSetChanged();
+        }
 
-        return view;
+        return convertView;
     }
 }
