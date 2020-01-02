@@ -11,7 +11,7 @@ var server = http.createServer(function (req, res) {
 });
 //몽고 디비에 연결
 var mongoose = require('mongoose');
-mongoose.connect("mongodb+srv://ahn9807:wnsgh8546**@cluster0-7lhcw.mongodb.net/test");
+//mongoose.connect("");
 var db = mongoose.connection;
 db.on('error', function () {
     console.log('Connection Failed!');
