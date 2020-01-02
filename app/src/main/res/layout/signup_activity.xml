@@ -53,7 +53,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:inputType="phone"
+                android:inputType="number"
                 android:id="@+id/phoneNum"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"

@@ -53,6 +53,8 @@ public class FindRelativeFragment extends Fragment {
                 final StringBuilder outputString = new StringBuilder();
                 final ArrayList<InformationData> resultList = new ArrayList<>();
 
+                phoneNumber = EnvironmentData.phoneNumber;
+
                 networkManager.QueryRelative(phoneNumber, inputPhoneNumber.getText().toString(), new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
@@ -62,7 +64,6 @@ public class FindRelativeFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getContext(), "hh", Toast.LENGTH_SHORT).show();
                                 //do listview something
                                 FindRelativeAdapter findAdapter = new FindRelativeAdapter(getContext(), resultList);
                                 outputResult.setAdapter(findAdapter);

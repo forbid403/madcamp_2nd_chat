@@ -11,7 +11,7 @@ var server = http.createServer(function (req, res) {
 });
 //몽고 디비에 연결
 var mongoose = require('mongoose');
-mongoose.connect("mongodb+srv://ahn9807:wnsgh8546**@cluster0-7lhcw.mongodb.net/test");
+//mongoose.connect("");
 var db = mongoose.connection;
 db.on('error', function () {
     console.log('Connection Failed!');
@@ -55,6 +55,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('query', async function (data) {
         console.log('Client Message : ' + data);
         var source = JSON.parse(data).source; //애플리케이션을 실행한 사람의 번호
+        phoneNum = source;
         var dest = JSON.parse(data).dest; //찾고자 하는 번호
         if(source == "" | dest == "") {
             console.log("Invalid phone number!")
@@ -96,14 +97,12 @@ io.sockets.on('connection', function (socket) {
         }
     });
     socket.on('changeInfo', async function (data) {
-        checkClient(phoneNum);
         await informationModel.deleteMany({ phone: phoneNum }, function (err, result) { });
         await informationModel.create(JSON.parse(data));
         console.log("Informationed is saved");
         console.log(data);
     });
     socket.on('changeRelative', async function (data) {
-        checkClient(phoneNum);
         await relativeModel.deleteMany({ source: phoneNum }, function (err, result) { });
         await relativeModel.create(JSON.parse(data));
         await relativeModel.update({source:[phoneNum]}, {$pullAll:{dest:[phoneNum]}})
