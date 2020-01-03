@@ -1,0 +1,26 @@
+{
+  "name": "2ndweekserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forbid403/madcamp_2nd_chat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forbid403/madcamp_2nd_chat/issues"
+  },
+  "homepage": "https://github.com/forbid403/madcamp_2nd_chat#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.8.4",
+    "socket.io": "^2.3.0"
+  }
+}
