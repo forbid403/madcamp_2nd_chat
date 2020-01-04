@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const dbUrl = 'mongodb://localhost:27017/mdcamp2'
 const port = process.env.port || 3000
 
-// TODO : need to check -> router
+// router
 const userRouter = require('./routes/user')
 const addresRouter = require('./routes/address')
 
@@ -18,13 +18,8 @@ app.use('/address', addresRouter)
 //connect to db
 const db = mongoose.connection
 db.on('error', console.error)
-db.once('open', function(){
-    console.log("connected to mongodb")
-})
-
-app.get('/', (req, res)=>{
-    res.send("hey, I am server")
-})
+db.once('open', ()=>console.log("connected to mongodb"))
+app.get('/', (req, res)=>res.send("hey, I am server"))
 
 mongoose.connect(dbUrl, {dbName:"user"}).then(()=>{console.log("ready to use"), err=>{console.log(err)}})
 

@@ -5,6 +5,13 @@ const address = express.Router()
 address.get('/address/:address', (req, res)=>{
     console.log("/address/"+req.params.address)
     
+    //find user
+    /*
+        do something
+    */
+
+    //save address
+    
 
 })
 

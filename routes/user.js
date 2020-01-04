@@ -40,11 +40,12 @@ user.get('/find', (req, res)=>{
 
 //find user by phone number
 user.get('/find/:phone', (req, res)=>{
+    
     console.log("/user/find/" + req.params.phone)
-    User.findOne({"phone": req.params.phone}, (err, user)=>{
+    User.find().where('phone').equals(req.params.phone).exec((err, user)=>{
         if(err) return res.status(500).json({error : 'database failure'})
-        if(!user) return res.status(404).json({error : 'user not found'})
-
+        
+        if(!user) return res.json({result : 0})
         res.json(user)
     })
 
