@@ -8,12 +8,14 @@ const port = process.env.port || 3000
 // router
 const userRouter = require('./routes/user')
 const addresRouter = require('./routes/address')
+const galleryRouter = require('./routes/gallery')
 
 // configure app to use bodyparser
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 app.use('/user', userRouter)
 app.use('/address', addresRouter)
+app.use('/gallery', galleryRouter)
 
 //connect to db
 const db = mongoose.connection
