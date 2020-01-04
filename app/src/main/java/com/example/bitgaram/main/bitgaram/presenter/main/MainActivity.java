@@ -1,11 +1,17 @@
 package com.example.bitgaram.main.bitgaram.presenter.main;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -21,6 +27,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     FragmentPagerAdapter adapter;
     SharedPreferences sf;
     SharedPreferences.Editor editor;
+    private String[] permissions = {
+            Manifest.permission.READ_CONTACTS,
+            Manifest.permission.WRITE_CONTACTS,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.INTERNET
+    };
+    private final int MULTIPLE_PERMISSIONS = 101;
 
     @Override
     protected void onStart() {
@@ -29,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         session.checkSignUp();
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         presenter = new MainPresenter();
         presenter.attachView(this);
-
         setTabViewPager();
+
     }
 
     @Override

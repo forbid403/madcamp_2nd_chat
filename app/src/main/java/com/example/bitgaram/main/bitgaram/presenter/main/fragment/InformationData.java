@@ -18,19 +18,17 @@ public class InformationData {
     public String message;
     public String phone;
     public String profilePicture;
-    public boolean open;
 
 
-    public InformationData(String name, String phone, String message, Bitmap profilePicture, boolean open) {
+    public InformationData(String name, String phone, String message, Bitmap profilePicture) {
         this.name = name;
         this.message = message;
         this.phone = phone;
-        this.open = open;
         this.profilePicture = BitmapToString(profilePicture);
     }
 
     public String InformationToJson() {
-        return "{ \"name\": \"" + name + "\", " + "\"phone\": \"" + phone + "\", " + "\"message\": \"" + message + "\", " + "\"open\": \"" + open + "\", " + "\"profilePicture\": \"" + profilePicture + "\" }";
+        return "{ \"name\": \"" + name + "\", " + "\"phone\": \"" + phone + "\", " + "\"message\": \"" + message + "\", " + "\"profilePicture\": \"" + profilePicture + "\" }";
     }
 
     public static String BitmapToString(Bitmap bitmapPicture) {
