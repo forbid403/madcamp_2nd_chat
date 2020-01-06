@@ -37,16 +37,12 @@ public class NetworkActivity extends AppCompatActivity {
     private List<ChatRoom> roomList;
     private RoomListAdapter roomAdapter;
 
-    //TODO : roomid 동적으로 받기, creatorid도 동적으로 받기!!
-    // room id = DB에서 받아오기
-    // creator Id = 내 id
-
     private final String roomId = "1";
-    private final String creatorId = "123";
+    private String creatorId = "123";
 
     public static final String SERVER_URL = "http://2daa09d2.ngrok.io/";
 
-    public String getRoomId(){
+    public String getAuthorId(){
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         return pref.getString("phone", "");
     }
@@ -58,6 +54,7 @@ public class NetworkActivity extends AppCompatActivity {
 
         roomList = new ArrayList<>();
         chatListView = (ListView)findViewById(R.id.chatlist);
+        creatorId = getAuthorId();
 
         new JSONTask().execute(SERVER_URL + "chat/" + creatorId);
         chatListView.setOnItemClickListener(itemClickListener);
@@ -69,6 +66,7 @@ public class NetworkActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(view.getContext(), InsideChattingRoom.class);
             intent.putExtra("roomId", String.valueOf(position));
+            intent.putExtra("authorId", String.valueOf(creatorId));
             startActivity(intent);
         }
     };

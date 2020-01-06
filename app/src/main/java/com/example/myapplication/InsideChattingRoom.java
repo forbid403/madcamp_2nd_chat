@@ -54,12 +54,14 @@ public class InsideChattingRoom extends AppCompatActivity {
     private HttpURLConnection con;
     private BufferedReader reader;
     private String roomId;
+    private String authorId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.insidechattingroom);
 
         roomId = getIntent().getStringExtra("roomId");
+        authorId = getIntent().getStringExtra("authorId");
 
         msgListView = (ListView)findViewById(R.id.chatlist) ;
         message = (EditText)findViewById(R.id.message);
@@ -126,7 +128,7 @@ public class InsideChattingRoom extends AppCompatActivity {
                 Timestamp ts = new Timestamp(System.currentTimeMillis());
                 jsonObject.accumulate("id", roomId);
                 jsonObject.accumulate("message", urls[1]);
-                jsonObject.accumulate("author", "123");
+                jsonObject.accumulate("author", authorId);
                 jsonObject.accumulate("time", ts);
 
                 Log.d("맫", jsonObject.toString());
