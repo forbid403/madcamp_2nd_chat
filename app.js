@@ -6,14 +6,12 @@ const socketio = require('socket.io')
 const http = require('http')
 const server = http.createServer(app)
 const io = socketio.listen(server)
+const bodyparser = require('body-parser')
 const chatRouter = require('./routes/chat')
 
+app.use(bodyparser.json())
+app.use(bodyparser.urlencoded({extended : true}))
 app.use('/chat', chatRouter)
-
-app.get('/', (req, res)=>{
-  res.send("chat server is open")
-})
-
 
 //connect to db
 const db = mongoose.connection
@@ -33,7 +31,6 @@ io.on('connection', function(socket){
 
   socket.on('msg', function(data){
     
-
     //return data
     let message = {"author" : "a", "content" : data}
     io.emit('message', message)
