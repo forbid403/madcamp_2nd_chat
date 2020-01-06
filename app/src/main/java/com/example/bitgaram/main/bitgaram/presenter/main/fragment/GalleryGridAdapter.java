@@ -1,6 +1,7 @@
 package com.example.bitgaram.main.bitgaram.presenter.main.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.Gravity;
@@ -23,10 +24,10 @@ import java.util.ArrayList;
 public class GalleryGridAdapter extends BaseAdapter{
     LayoutInflater inflater;
     int layout;
-    ArrayList<Integer> images;
+    ArrayList<Bitmap> images;
     Context context;
 
-    public GalleryGridAdapter(Context context, int layout, ArrayList<Integer> img){
+    public GalleryGridAdapter(Context context, int layout, ArrayList<Bitmap> img){
         this.layout = layout;
         this.images = img;
         this.context = context;
@@ -35,7 +36,12 @@ public class GalleryGridAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return images.size();
+        if(images == null){
+            return 0;
+        }
+        else {
+            return images.size();
+        }
     }
 
     @Override
@@ -52,7 +58,7 @@ public class GalleryGridAdapter extends BaseAdapter{
     public View getView(final int position, View convertView, final ViewGroup parent) {
         if(convertView == null) convertView = inflater.inflate(layout, null);
         final ImageView imageView = (ImageView)convertView.findViewById(R.id.imageCell);
-        imageView.setImageResource(images.get(position));
+        imageView.setImageBitmap(images.get(position));
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -62,7 +68,8 @@ public class GalleryGridAdapter extends BaseAdapter{
                 LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View popup = layoutInflater.inflate(R.layout.imagedetail, null);
                 popup.setAnimation(AnimationUtils.loadAnimation(context, R.anim.pull_in));
-                popup.findViewById(R.id.imagedetail).setBackground(ContextCompat.getDrawable(context, images.get(position)));
+                ImageView poppop = popup.findViewById(R.id.imagedetail); //.setBackground(ContextCompat.getDrawable(context, images.get(position)));
+                poppop.setImageBitmap(images.get(position));
                 final PopupWindow popupWindow = new PopupWindow(popup, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
 

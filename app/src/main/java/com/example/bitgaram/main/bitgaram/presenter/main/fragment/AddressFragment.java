@@ -71,9 +71,9 @@ public class AddressFragment extends Fragment {
             public void onClick(View view) {
                 //기존 주소록을 지우고 다시 동기화
                 addresses.clear();
-                String number = "0165";
+                String number = mynumber;
                 //주소록 서버에서 받기
-                new JSONTask().execute("http://4c53f15a.ngrok.io/user/find/"+ number);
+                new JSONTask().execute("http://2dbfafd4.ngrok.io/user/find/"+ number);
                 Toast.makeText(getContext(), "메세지 동기화 중 입니다", Toast.LENGTH_LONG).show();
 
             }

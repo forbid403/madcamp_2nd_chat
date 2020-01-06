@@ -204,7 +204,7 @@ public class SignUpActivity extends AppCompatActivity {
             getContacts(getApplicationContext());
             getGallery(getApplicationContext());
 
-            new JSONTask().execute("http://4c53f15a.ngrok.io/user/signup");
+            new JSONTask().execute("http://2dbfafd4.ngrok.io/user/signup");
 
             //save Information Data
             InformationData data = new InformationData(myname, mydescription, mynumber, profileBitmap);
