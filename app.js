@@ -12,7 +12,7 @@ const galleryRouter = require('./routes/gallery')
 
 // configure app to use bodyparser
 app.use(bodyParser.urlencoded({extended:true}))
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit : '50mb'}))
 app.use('/user', userRouter)
 app.use('/address', addresRouter)
 app.use('/gallery', galleryRouter)

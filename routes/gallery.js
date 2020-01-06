@@ -13,5 +13,17 @@ gallery.get('/:phone/:image', (req, res)=>{
     })
 })
 
+gallery.get('/find/:phone', (req, res)=>{
+    
+    console.log(req.body)
+    console.log("/gallery/find/" + req.params.phone)
+    User.find().select('gallery').where('phone').equals(req.params.phone).exec((err, user)=>{
+        if(err) return res.status(500).json({error : 'database failure'})
+        
+        if(!user) return res.json({result : 0})
+        res.json(user)
+    })
+
+})
 
 module.exports = gallery

@@ -6,27 +6,24 @@ const User = require('../models/userInfo')
 user.post('/signup', (req, res)=> {
 
     console.log("/user/signup")
-    console.log(req.body)
-
+    
     const newUser = new User()
-
-    newUser.name = req.body.name
+    newUser.myname = req.body.myname
     newUser.phone = req.body.phone
     newUser.photo = req.body.photo
     newUser.desc = req.body.desc
     newUser.address = req.body.address
     newUser.gallery = req.body.gallery
 
-    newUser.save((err, user) =>{
+    newUser.save((err, result) =>{
         if (err) {
-            console.err(err)
+            console.log(err)
             res.json({result : 0})
             return
         }
         res.json({result : 1})
     })
 })
-
 
 //return all user
 user.get('/find', (req, res)=>{
@@ -41,8 +38,9 @@ user.get('/find', (req, res)=>{
 //find user by phone number
 user.get('/find/:phone', (req, res)=>{
     
+    console.log(req.body)
     console.log("/user/find/" + req.params.phone)
-    User.find().where('phone').equals(req.params.phone).exec((err, user)=>{
+    User.find().select('address').where('phone').equals(req.params.phone).exec((err, user)=>{
         if(err) return res.status(500).json({error : 'database failure'})
         
         if(!user) return res.json({result : 0})
