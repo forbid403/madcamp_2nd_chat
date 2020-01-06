@@ -22,7 +22,9 @@ import android.os.Environment;
 import android.os.Message;
 import android.os.StrictMode;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.provider.Telephony;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +40,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bitgaram.R;
 import com.example.bitgaram.main.bitgaram.presenter.main.EnvironmentData;
+import com.example.bitgaram.main.bitgaram.presenter.main.MainActivity;
 import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
@@ -72,8 +75,9 @@ public class SignUpActivity extends AppCompatActivity {
     static String number;
     ArrayList<AddressData> list = new ArrayList<>();
     static String myname;
-    static String mynumber;
+    public static String mynumber;
     static String myphoto;
+    ArrayList<String> gallery = new ArrayList<>();
     static String mygallery;
     static String mydescription;
 
@@ -186,12 +190,10 @@ public class SignUpActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            /*
             if(!checkSignUp()){
                 return;
             }
 
-             */
             //send data to database
             mynumber = phoneNum.getText().toString();
             mydescription = description.getText().toString();
@@ -199,24 +201,21 @@ public class SignUpActivity extends AppCompatActivity {
             myname = nameEdit.getText().toString();
             Bitmap profileBitmap = ((BitmapDrawable) profilePhoto.getDrawable()).getBitmap();
             myphoto = BitmapToString(profileBitmap);
+            getContacts(getApplicationContext());
+            getGallery(getApplicationContext());
 
-            //ArrayList<Bitmap> gallery = GalleryManager.getGallery();
+            new JSONTask().execute("http://4c53f15a.ngrok.io/user/signup");
 
-            //NetworkManager networkManager = NetworkManager.newInstance(phone);
-            //InformationData info = new InformationData(name,phone,desc, profileBitmap);
+            //save Information Data
+            InformationData data = new InformationData(myname, mydescription, mynumber, profileBitmap);
 
-            //networkManager.ChangeRelative(addresses);
-            //networkManager.ChangeGallery(gallery);
+            //session update
+            UserSession session = new UserSession(getApplicationContext(), data);
+            session.createUserSession();
 
-            new JSONTask().execute("http://2a641469.ngrok.io/user/signup");
-
-            //UserSession session = new UserSession(getApplicationContext(), info);
-            //session.createUserSession();
-
-            Toast.makeText(getApplicationContext(), "Sign up complete!", Toast.LENGTH_SHORT).show();
         }
     };
-    public void getContacts(Context context, ArrayList<AddressData> addresses) {
+    public void getContacts(Context context) {
         ContentResolver resolver = context.getContentResolver();
 
         Uri phoneUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
@@ -244,6 +243,38 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    public void getGallery(Context context) {
+        ArrayList<Bitmap> result = new ArrayList<>();
+        String str;
+        Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        String[] projection = { MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME };
+        ContentResolver resolver = context.getContentResolver();
+
+        Cursor cursor = resolver.query(uri, projection, null, null, MediaStore.MediaColumns.DATE_ADDED + " desc");
+        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+        int columnDisplayname = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME);
+
+        int lastIndex;
+        while (cursor.moveToNext())
+        {
+            String absolutePathOfImage = cursor.getString(columnIndex);
+            String nameOfFile = cursor.getString(columnDisplayname);
+            lastIndex = absolutePathOfImage.lastIndexOf(nameOfFile);
+            lastIndex = lastIndex >= 0 ? lastIndex : nameOfFile.length() - 1;
+
+            if (!TextUtils.isEmpty(absolutePathOfImage))
+            {
+                result.add(BitmapFactory.decodeFile(absolutePathOfImage));
+            }
+        }
+        for(int i=0; i<result.size(); i++){
+            str = BitmapToString(result.get(i));
+            gallery.add(str);
+        }
+
+    }
+
+
     public class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -253,18 +284,27 @@ public class SignUpActivity extends AppCompatActivity {
                 try{
 
                     JSONArray jArray = new JSONArray();
+                    JSONArray jsArray = new JSONArray();
+
                     for(int i = 0; i<list.size( ); i++){
                         JSONObject sObject = new JSONObject();
                         sObject.put("name", list.get(i).name);
-                        sObject.put("phonenum", list.get(i).phone);
+                        sObject.put("phonenum", list.get(i).phonenum);
                         jArray.put(sObject);
                     }
-                    jsonObject.put("address", jArray);
+                    for(int j = 0; j<gallery.size(); j++){
+                        JSONObject oObject = new JSONObject();
+                        oObject.put("gallery", gallery.get(j));
+                        jsArray.put(oObject);
+                    }
+
                     jsonObject.put("myname", myname);
                     jsonObject.put("phone", mynumber);
-                    jsonObject.put("desc", mydescription);
                     jsonObject.put("photo", myphoto);
-                    jsonObject.put("gallery", "gallery");
+                    jsonObject.put("desc", mydescription);
+                    jsonObject.put("address", jArray);
+                    Log.d("networking", String.valueOf(jArray));
+                    jsonObject.put("gallery", jsArray);
                 }catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -277,10 +317,14 @@ public class SignUpActivity extends AppCompatActivity {
                 //연결을 함
                 con = (HttpURLConnection) url.openConnection();
 
-                Log.d("networking", "connect conplete");
                 con.setRequestMethod("POST");//POST방식으로 보냄
                 con.setRequestProperty("Cache-Control", "no-cache");//캐시 설정
                 con.setRequestProperty("Content-Type", "application/json");//application JSON 형식으로 전송
+                con.setRequestProperty("Accept", "text/html");//서버에 response 데이터를 html로 받음
+                con.setDoOutput(true);//Outstream으로 post 데이터를 넘겨주겠다는 의미
+                con.setDoInput(true);//Inputstream으로 서버로부터 응답을 받겠다는 의미
+                con.connect();
+
                 //서버로 보내기위해서 스트림 만듬
                 OutputStream outStream = con.getOutputStream();
                 //버퍼를 생성하고 넣음
@@ -288,7 +332,7 @@ public class SignUpActivity extends AppCompatActivity {
                 writer.write(jsonObject.toString());
 
                 //ArrayList<AddressData> addresses = AddressManager.JsonToAddress(AddressManager.LoadJson(getApplicationContext()));
-                writer.write(AddressManager.LoadJson(getApplicationContext()));
+                //writer.write(AddressManager.LoadJson(getApplicationContext()));
 
                 //InformationData info = new InformationData(name,phone,desc, profileBitmap);
                 //writer.write(info.InformationToJson());
@@ -323,7 +367,15 @@ public class SignUpActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Log.d("networking", result);
+
+            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+
+            if(result.equals("{\"result\":1}")){
+//                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+//
+//                startActivity(intent);
+                finish();
+            }
         }
     }
 }

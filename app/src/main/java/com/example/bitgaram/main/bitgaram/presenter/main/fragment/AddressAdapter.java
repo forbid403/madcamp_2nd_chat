@@ -40,7 +40,7 @@ public class AddressAdapter extends RecyclerView.Adapter<ViewHolder> {
         TextView txtName = holder.name;
         txtName.setText(address.name);
         TextView txtPhone = holder.phone;
-        txtPhone.setText(address.phone);
+        txtPhone.setText(address.phonenum);
     }
 
     @Override

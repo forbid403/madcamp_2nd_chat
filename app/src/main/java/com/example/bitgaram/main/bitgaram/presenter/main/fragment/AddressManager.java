@@ -72,6 +72,8 @@ public class AddressManager {
             return outputList;
         }
 
+        Log.d("맫4", String.valueOf(outputList));
+
         return outputList;
     }
 

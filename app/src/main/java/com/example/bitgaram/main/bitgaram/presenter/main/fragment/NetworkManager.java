@@ -134,7 +134,7 @@ public class NetworkManager {
         //결과값을 서버에게 보내는 리스너
         String addressJSON = "{ \"source\" : \"" + phoneNumber + "\", \"dest\" : [" ;
         for (int i = 0; i < addresses.size(); i++) {
-            addressJSON = addressJSON + " \"" + addresses.get(i).phone + "\"";
+            addressJSON = addressJSON + " \"" + addresses.get(i).phonenum + "\"";
             if(i != (addresses.size()-1)) {
                 addressJSON = addressJSON + ",";
             }
