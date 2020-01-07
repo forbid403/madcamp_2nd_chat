@@ -43,7 +43,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -51,7 +50,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static android.app.Activity.RESULT_OK;
+import static com.example.bitgaram.main.bitgaram.presenter.main.fragment.NetworkManager.SERVER_ADDRESS;
 import static com.example.bitgaram.main.bitgaram.presenter.main.fragment.SignUpActivity.mynumber;
 
 public class GalleryFragment extends Fragment {
@@ -94,7 +93,7 @@ public class GalleryFragment extends Fragment {
                 bitmaps.clear();
                 String number = mynumber;
                 //주소록 서버에서 받기
-                new GalleryFragment.JSONTask().execute("http://2dbfafd4.ngrok.io/gallery/find/333");
+                new GalleryFragment.JSONTask().execute(SERVER_ADDRESS + "gallery/find/333");
                 Toast.makeText(getContext(), "메세지 동기화 중 입니다", Toast.LENGTH_LONG).show();
 
             }
@@ -131,17 +130,13 @@ public class GalleryFragment extends Fragment {
                         buffer.append(line);
                     }
 
-                    Log.d("맫", buffer.toString());
-                    //다 가져오면 String 형변환을 수행한다. 이유는 protected String doInBackground(String... urls) 니까
                     return buffer.toString();
 
-                    //아래는 예외처리 부분이다.
                 } catch (MalformedURLException e){
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
-                    //종료가 되면 disconnect메소드를 호출한다.
                     if(con != null){
                         con.disconnect();
                     }

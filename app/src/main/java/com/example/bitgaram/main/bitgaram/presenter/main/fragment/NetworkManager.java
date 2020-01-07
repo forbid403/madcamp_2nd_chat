@@ -20,7 +20,7 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class NetworkManager {
-    private static final String SERVER_ADDRESS = "http://ecb976d5.ngrok.i/user/signup";
+    public static final String SERVER_ADDRESS = "https://c4e6e6f4.ngrok.io/";
     private static final String SERVER_RESULT = "result";
     private static final String CLIENT_QUERY = "query";
     private static final String CLIENT_PHONE = "clientPhoneNumber";
@@ -51,7 +51,7 @@ public class NetworkManager {
     public void Connect() {
         if(mSocket == null) {
             try {
-                mSocket = IO.socket(SERVER_ADDRESS);
+                mSocket = IO.socket(SERVER_ADDRESS + "user/signup");
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }

@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.bitgaram.presenter.main.fragment.SignUpActivity"/>
+        <activity android:name=".main.bitgaram.presenter.main.chatting.InsideChattingRoom"/>
+        <activity android:name=".main.bitgaram.presenter.main.chatting.ChattingActivity"/>
     </application>
 
 

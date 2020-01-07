@@ -63,6 +63,8 @@ import java.util.ArrayList;
 
 import java.io.InputStream;
 
+import static com.example.bitgaram.main.bitgaram.presenter.main.fragment.NetworkManager.SERVER_ADDRESS;
+
 public class SignUpActivity extends AppCompatActivity {
 
     private ImageView profilePhoto;
@@ -204,7 +206,7 @@ public class SignUpActivity extends AppCompatActivity {
             getContacts(getApplicationContext());
             getGallery(getApplicationContext());
 
-            new JSONTask().execute("http://2dbfafd4.ngrok.io/user/signup");
+            new JSONTask().execute(SERVER_ADDRESS + "user/signup");
 
             //save Information Data
             InformationData data = new InformationData(myname, mydescription, mynumber, profileBitmap);
