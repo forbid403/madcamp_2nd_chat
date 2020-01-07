@@ -109,7 +109,7 @@ public class ChattingActivity extends Fragment {
                     }
 
                     JSONArray data = new JSONArray(jsonString.toString());
-
+                    roomList.clear();
                     for(int i=0; i<data.length(); i++){
                         JSONObject object = data.getJSONObject(i);
                         String id = object.getString("id");
