@@ -15,7 +15,7 @@ user.post('/signup', (req, res)=> {
     newUser.address = req.body.address
     newUser.gallery = req.body.gallery
 
-    newUser.save((err, result) =>{
+    newUser.save(function(err, result) {
         if (err) {
             console.log(err)
             res.json({result : 0})
@@ -33,6 +33,7 @@ user.get('/find', (req, res)=>{
         if(err) return res.status(500).send({err : 'database failure'})
         res.json(users)
     })
+    res.end();
 })
 
 //find user by phone number
@@ -43,8 +44,10 @@ user.get('/find/:phone', (req, res)=>{
     User.find().select('address').where('phone').equals(req.params.phone).exec((err, user)=>{
         if(err) return res.status(500).json({error : 'database failure'})
         
+        console.log(user)
         if(!user) return res.json({result : 0})
         res.json(user)
+
     })
 
 })

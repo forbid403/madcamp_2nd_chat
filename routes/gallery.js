@@ -1,7 +1,7 @@
 const express = require('express')
 const gallery = express.Router()
 const User = require('../models/userInfo')
-
+/*
 gallery.get('/:phone/:image', (req, res)=>{
     console.log('/gallery/add/image')
     User.updateOne({'phone' : req.params.phone}, {$addToSet : {'gallery' : req.params.image}}).exec((err, result)=>{
@@ -12,14 +12,13 @@ gallery.get('/:phone/:image', (req, res)=>{
         res.json({res : 1})
     })
 })
-
+*/
 gallery.get('/find/:phone', (req, res)=>{
     
     console.log(req.body)
     console.log("/gallery/find/" + req.params.phone)
     User.find().select('gallery').where('phone').equals(req.params.phone).exec((err, user)=>{
         if(err) return res.status(500).json({error : 'database failure'})
-        
         if(!user) return res.json({result : 0})
         res.json(user)
     })
