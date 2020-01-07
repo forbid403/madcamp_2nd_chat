@@ -131,7 +131,6 @@ public class InsideChattingRoom extends AppCompatActivity {
                 jsonObject.accumulate("author", authorId);
                 jsonObject.accumulate("time", ts);
 
-                Log.d("맫", jsonObject.toString());
                 try{
                     URL url = new URL(urls[0]);//url을 가져온다.
                     con = (HttpURLConnection) url.openConnection();

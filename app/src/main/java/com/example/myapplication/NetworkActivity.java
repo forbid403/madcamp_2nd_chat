@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,16 +37,10 @@ public class NetworkActivity extends AppCompatActivity {
     private ListView chatListView;
     private List<ChatRoom> roomList;
     private RoomListAdapter roomAdapter;
-
     private final String roomId = "1";
     private String creatorId = "123";
-
+    private Button newChattingBtn;
     public static final String SERVER_URL = "http://2daa09d2.ngrok.io/";
-
-    public String getAuthorId(){
-        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-        return pref.getString("phone", "");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +50,19 @@ public class NetworkActivity extends AppCompatActivity {
         roomList = new ArrayList<>();
         chatListView = (ListView)findViewById(R.id.chatlist);
         creatorId = getAuthorId();
+        newChattingBtn = (Button)findViewById(R.id.newchatting);
 
         new JSONTask().execute(SERVER_URL + "chat/" + creatorId);
         chatListView.setOnItemClickListener(itemClickListener);
 
     }
+
+    Button.OnClickListener btnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
 
     AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
@@ -70,6 +73,11 @@ public class NetworkActivity extends AppCompatActivity {
             startActivity(intent);
         }
     };
+
+    public String getAuthorId(){
+        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+        return pref.getString("phone", "");
+    }
 
     public class JSONTask extends AsyncTask<String, String, String> {
 
