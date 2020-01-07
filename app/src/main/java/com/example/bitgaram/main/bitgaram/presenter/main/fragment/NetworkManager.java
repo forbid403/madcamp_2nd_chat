@@ -16,7 +16,7 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class NetworkManager {
-    private static final String SERVER_ADDRESS = "http://caee68c7.ngrok.io";
+    private static final String SERVER_ADDRESS = "https://c4e6e6f4.ngrok.io";
     private static final String SERVER_RESULT = "result";
     private static final String CLIENT_QUERY = "query";
     private static final String CLIENT_PHONE = "clientPhoneNumber";
