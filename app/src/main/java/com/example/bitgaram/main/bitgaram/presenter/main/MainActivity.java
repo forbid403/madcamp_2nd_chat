@@ -11,13 +11,10 @@ import android.widget.Toast;
 
 import com.example.bitgaram.R;
 import com.example.bitgaram.main.bitgaram.presenter.main.fragment.UserSession;
-import com.example.bitgaram.main.bitgaram.presenter.main.presenter.MainContract;
-import com.example.bitgaram.main.bitgaram.presenter.main.presenter.MainPresenter;
 import com.google.android.material.tabs.TabLayout;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View {
+public class MainActivity extends AppCompatActivity {
     EnvironmentData environment;
-    private MainContract.Presenter presenter;
     FragmentPagerAdapter adapter;
     SharedPreferences sf;
     SharedPreferences.Editor editor;
@@ -34,17 +31,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new MainPresenter();
-        presenter.attachView(this);
-
         setTabViewPager();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        environment.SaveEnvironment(getApplicationContext());
-        presenter.detachView();
     }
 
     void setTabViewPager(){
