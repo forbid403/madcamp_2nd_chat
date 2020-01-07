@@ -1,6 +1,7 @@
 package com.example.bitgaram.main.bitgaram.presenter.main.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.example.bitgaram.main.bitgaram.presenter.main.fragment.NetworkManager.SERVER_ADDRESS;
 import static com.example.bitgaram.main.bitgaram.presenter.main.fragment.SignUpActivity.mynumber;
 
@@ -72,9 +74,11 @@ public class AddressFragment extends Fragment {
             public void onClick(View view) {
                 //기존 주소록을 지우고 다시 동기화
                 addresses.clear();
-                String number = mynumber;
+                SharedPreferences pref = getActivity().getSharedPreferences("pref", MODE_PRIVATE);
+                String number = pref.getString("mynumber", "");
+
                 //주소록 서버에서 받기
-                new JSONTask().execute(SERVER_ADDRESS + "user/find/333");
+                new JSONTask().execute(SERVER_ADDRESS + "user/find/" + number);
                 Toast.makeText(getContext(), "메세지 동기화 중 입니다", Toast.LENGTH_LONG).show();
 
             }

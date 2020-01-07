@@ -51,7 +51,7 @@ public class ChattingActivity extends Fragment {
 
     private String getAuthorId(){
         SharedPreferences pref = getContext().getSharedPreferences("pref",MODE_PRIVATE);
-        return pref.getString("phone", "");
+        return pref.getString("mynumber", "");
     }
 
     @Nullable

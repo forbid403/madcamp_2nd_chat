@@ -215,6 +215,12 @@ public class SignUpActivity extends AppCompatActivity {
             UserSession session = new UserSession(getApplicationContext(), data);
             session.createUserSession();
 
+            mynumber = phoneNum.getText().toString();
+            SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("mynumber", mynumber);
+            editor.commit();
+
         }
     };
     public void getContacts(Context context) {

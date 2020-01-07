@@ -2,6 +2,7 @@ package com.example.bitgaram.main.bitgaram.presenter.main.fragment;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.example.bitgaram.main.bitgaram.presenter.main.fragment.NetworkManager.SERVER_ADDRESS;
 import static com.example.bitgaram.main.bitgaram.presenter.main.fragment.SignUpActivity.mynumber;
 
@@ -91,9 +93,10 @@ public class GalleryFragment extends Fragment {
             public void onClick(View view) {
                 //기존 갤러리를 지우고 다시 동기화
                 bitmaps.clear();
-                String number = mynumber;
+                SharedPreferences pref = getActivity().getSharedPreferences("pref", MODE_PRIVATE);
+                String number = pref.getString("mynumber", "");
                 //주소록 서버에서 받기
-                new GalleryFragment.JSONTask().execute(SERVER_ADDRESS + "gallery/find/333");
+                new GalleryFragment.JSONTask().execute(SERVER_ADDRESS + "gallery/find/"+number);
                 Toast.makeText(getContext(), "메세지 동기화 중 입니다", Toast.LENGTH_LONG).show();
 
             }
