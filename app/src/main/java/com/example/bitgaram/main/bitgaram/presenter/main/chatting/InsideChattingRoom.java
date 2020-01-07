@@ -48,7 +48,6 @@ public class InsideChattingRoom extends AppCompatActivity {
     private BufferedReader reader;
     private String roomId;
     private String authorId;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,40 +64,26 @@ public class InsideChattingRoom extends AppCompatActivity {
         String messageTask = SERVER_ADDRESS + "chat/get/" + roomId;
         new GetMessagesTask().execute(messageTask);
 
-        connectSocket();
+        /*
+        try {
+            socket = IO.socket(SERVER_ADDRESS);
+            socket.connect();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                socket.emit("msg", "123", message.getText().toString(), roomId);
+                socket.emit("msg", message.getText().toString());
                 new SaveMessageTask().execute(SERVER_ADDRESS + "chat/save", message.getText().toString());
             }
         });
         socket.on("message", onMessage);
+        */
     }
 
-    private void connectSocket() {
-        try {
-            Log.d("SOCKET", "ISCONNECTED");
-            socket = IO.socket(SERVER_ADDRESS+"?token="+roomId);
 
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        socket.connect();
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        socket.emit("leaveRoom", roomId);
-        Log.d("맫", "back press");
-        super.onBackPressed();
-        //disconnet
-        socket.disconnect();
-        socket.off();
-
-    }
     private Emitter.Listener onMessage = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
@@ -107,8 +92,6 @@ public class InsideChattingRoom extends AppCompatActivity {
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
                     try {
-
-                        Log.d("받은데이터", data.toString());
                         String author = data.getString("author");
                         String content = data.getString("content");
 
