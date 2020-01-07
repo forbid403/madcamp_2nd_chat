@@ -12,6 +12,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,7 +26,7 @@ import java.util.ArrayList;
 
 
 public class AddressManager {
-    public static void getContacts(Context context, ArrayList<AddressData> addresses) {
+    public static void getContacts(Context context, ArrayList<AddressData> addresses){
         ContentResolver resolver = context.getContentResolver();
 
         Uri phoneUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
@@ -42,7 +45,7 @@ public class AddressManager {
                 int numberIndex = cursor.getColumnIndex(projection[2]);
 
                 String name = cursor.getString(nameIndex);
-                String number = cursor.getString(numberIndex);
+                String  number= cursor.getString(numberIndex);
 
                 AddressData address = new com.example.bitgaram.main.bitgaram.presenter.main.fragment.AddressData(name, number);
 
@@ -68,6 +71,8 @@ public class AddressManager {
             outputList.add(new AddressData("연락처 동기화 해주세요"," "));
             return outputList;
         }
+
+        Log.d("맫4", String.valueOf(outputList));
 
         return outputList;
     }

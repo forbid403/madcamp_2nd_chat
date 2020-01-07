@@ -3,6 +3,8 @@
     package="com.example.bitgaram">
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
@@ -20,6 +22,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.bitgaram.presenter.main.fragment.SignUpActivity"/>
+        <activity android:name=".main.bitgaram.presenter.main.chatting.InsideChattingRoom"/>
+        <activity android:name=".main.bitgaram.presenter.main.chatting.ChattingActivity"/>
     </application>
+
+
 
 </manifest>

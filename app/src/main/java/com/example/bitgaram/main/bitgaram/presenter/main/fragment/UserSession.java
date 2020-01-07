@@ -37,7 +37,6 @@ public class UserSession {
         editor.putString(message, mData.message);
         editor.putString(phone, mData.phone);
         editor.putString(profilePicture, mData.profilePicture);
-        editor.putBoolean(open, mData.open);
         editor.putBoolean(isSignUp, true);
         editor.commit();
     }

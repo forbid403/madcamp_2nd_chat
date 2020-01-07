@@ -60,15 +60,6 @@
                 android:textSize="8pt"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/authorization"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/phoneNum"
-                android:background="@color/colorPrimary"
-                android:text="인증"
-                android:textColor="#ffffff" />
         </RelativeLayout>
 
 
@@ -86,35 +77,6 @@
             android:textSize="8pt"
             android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="My Info"
-            android:textSize="5pt" />
-
-        <RadioGroup
-            android:id="@+id/myinfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_weight="1"
-                android:id="@+id/privateRadio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="Private" />
-
-            <RadioButton
-                android:layout_weight="1"
-
-                android:id="@+id/publicRadio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Public" />
-        </RadioGroup>
 
     </LinearLayout>
 
