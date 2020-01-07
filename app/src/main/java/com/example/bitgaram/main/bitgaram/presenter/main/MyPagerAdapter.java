@@ -7,10 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.bitgaram.main.bitgaram.presenter.main.chatting.ChattingActivity;
 import com.example.bitgaram.main.bitgaram.presenter.main.fragment.AddressFragment;
-import com.example.bitgaram.main.bitgaram.presenter.main.fragment.FindRelativeFragment;
 import com.example.bitgaram.main.bitgaram.presenter.main.fragment.GalleryFragment;
-
-import java.util.List;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
     String[] pageNames = {"연락처", "갤러리", "채팅"};

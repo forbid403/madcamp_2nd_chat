@@ -53,7 +53,6 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.bitgaram.main.bitgaram.presenter.main.fragment.NetworkManager.SERVER_ADDRESS;
-import static com.example.bitgaram.main.bitgaram.presenter.main.fragment.SignUpActivity.mynumber;
 
 public class GalleryFragment extends Fragment {
 

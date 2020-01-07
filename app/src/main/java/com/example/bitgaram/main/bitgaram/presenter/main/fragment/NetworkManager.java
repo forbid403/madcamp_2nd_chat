@@ -16,7 +16,7 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class NetworkManager {
-    private static final String SERVER_ADDRESS = "https://c4e6e6f4.ngrok.io";
+    public static final String SERVER_ADDRESS = "https://af2bd4ab.ngrok.io/";
     private static final String SERVER_RESULT = "result";
     private static final String CLIENT_QUERY = "query";
     private static final String CLIENT_PHONE = "clientPhoneNumber";
@@ -68,53 +68,6 @@ public class NetworkManager {
         Connect();
     }
 
-    //Usage
-    /*
-    String inputQuery 는 { source : string , dest : string } 으로 전송 된다.
-    이 함수는 서버와 연결하여 resultListen 을 표시하는 곳에 이용된다.
-    따라서 ResultListner 에 해당하는 소켓 리스너를 반드시 구현하여야 한다.
-    */
-    public void QueryRelative(final String source, final String dest, Emitter.Listener resultListener) {
-        if(mSocket.connected() == false) {
-            Log.e("Server", "Socket is closed");
-            return;
-        }
-
-        String clientQueryToJson = "{ \"source\" : \"" + source + "\", " + "\"dest\" : \"" + dest + "\"}";
-        mSocket.emit(CLIENT_QUERY, clientQueryToJson);
-        //결과 값을 받아서 처리할 내용
-        mSocket.on(SERVER_RESULT, resultListener);
-    }
-
-    //개인 정보 수정
-    public void ChangeInformation(InformationData info) {
-        if(mSocket.connected() == false) {
-            Log.e("Server", "Socket is closed");
-            return;
-        }
-
-        mSocket.emit(CLIENT_CHANGE_INFORMATION, info.InformationToJson());
-    }
-
-    //연결 관계 수정
-    public void ChangeRelative(final ArrayList<AddressData> addresses) {
-        if(mSocket.connected() == false) {
-            Log.e("Server", "Socket is closed");
-            return;
-        }
-
-        //결과값을 서버에게 보내는 리스너
-        String addressJSON = "{ \"source\" : \"" + phoneNumber + "\", \"dest\" : [" ;
-        for (int i = 0; i < addresses.size(); i++) {
-            addressJSON = addressJSON + " \"" + addresses.get(i).phone + "\"";
-            if(i != (addresses.size()-1)) {
-                addressJSON = addressJSON + ",";
-            }
-        }
-        addressJSON = addressJSON + "]}";
-
-        mSocket.emit(CLIENT_CHANGE_RELATIVE, addressJSON);
-    }
 
     public static ArrayList<InformationData> ResultToInformationArrayList(JSONArray resultJSON) {
         Gson gson = new Gson();

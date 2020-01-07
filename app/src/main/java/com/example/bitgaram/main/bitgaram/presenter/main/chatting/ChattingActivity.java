@@ -13,11 +13,9 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.bitgaram.R;
-import com.example.bitgaram.main.bitgaram.presenter.main.fragment.FindRelativeFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -110,6 +108,7 @@ public class ChattingActivity extends Fragment {
 
                     JSONArray data = new JSONArray(jsonString.toString());
 
+                    roomList.clear();
                     for(int i=0; i<data.length(); i++){
                         JSONObject object = data.getJSONObject(i);
                         String id = object.getString("id");
