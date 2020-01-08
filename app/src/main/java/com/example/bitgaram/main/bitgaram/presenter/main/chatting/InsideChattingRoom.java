@@ -64,7 +64,7 @@ public class InsideChattingRoom extends AppCompatActivity {
         String messageTask = SERVER_ADDRESS + "chat/get/" + roomId;
         new GetMessagesTask().execute(messageTask);
 
-        /*
+        
         try {
             socket = IO.socket(SERVER_ADDRESS);
             socket.connect();
@@ -80,7 +80,7 @@ public class InsideChattingRoom extends AppCompatActivity {
             }
         });
         socket.on("message", onMessage);
-        */
+        
     }
 
 
