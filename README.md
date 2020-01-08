@@ -8,8 +8,8 @@ Last Edited: Jan 02, 2020 3:02 PM
 - Node.js
 - Android Studio
 - Mongo db
-- 개발 기간 : 1주일
-- 개발 인원 : 2명 (@forbid403, @ahn9807)
+- 개발 기간 : 5일
+- 개발 인원 : 2명 (@forbid403, @KangHyunSub)
 
 # 전체 앱 구성
 
@@ -27,65 +27,54 @@ Last Edited: Jan 02, 2020 3:02 PM
 - 회원 가입 후에만 어플리케이션 접근
 - 필수 정보 입력 시에만 회원 가입 가능
 - SharedPreference로 세션 유지
-- 회원가입 시 DB 전송
+- 회원가입 시 회원 정보, 로컬에 있는 갤러리와 연락처를 DB 전송
 
 ### TAB1
 
 - 연락처 리스트
 
-    ![](gitImage/2.png)
+    ![](gitImage/address.jpg)
 
-- 로컬에 있는 연락처 목록을 불러온다.
+- DB에 있는 연락처 목록을 불러온다.
 - 아래 버튼 클릭 시 update
 
 ### TAB2
 
 - 갤러리
 
-    ![](gitImage/3.png)
+    ![](gitImage/gallery.jpg)
 
-    - 프로젝트 내부의 사진들 불러오기
-
-    ![](gitImage/4.png)
-
+- DB의 사진들 불러오기
 - 사진 클릭 시 확대
 - 클릭 한 사진은 opacity 조절로 체크
 
 ### TAB3
 
-- 촌수 계산
-
-    ![](gitImage/5.png)
-
-- 핸드폰 번호를 입력 하면, 그 사람이랑 내가 몇 다리 건너야 친구인지 알려주는 기능
-- 자료구조 : queue, set
-- 알고리즘 : Disjoint-set, BFS
-- 친구를 찾으면 경로를 출력, 아니라면 Not found 출력
-- 자세한 알고리즘은 [여기](https://www.notion.so/02ab7da983df41e492146bb977967fab)
+- 채팅기능
+    - 소켓통신을 이용한 채팅 기능
+    ![](gitImage/chatting.jpg)
+    ![](gitImage/chatting2.jpg)
+    - 채팅 방은 DB에 저장된 ID로 구별
+    - 채팅 방 입장 시 DB에서 지금까지 대화한 기록들 불러오기
+    - socket.join을 사용해 emit시 구별해서 전송
 
 # 트러블슈팅
 
-- JS는 싱글 스레드 언어여서 서버단에서 데이터를 주고 받을 때 동기화가 필요했다. 데이터를 이미 받았는데도 불구하고 빈 Array를 반환하고는 했다.
-
-    → Async / Await, Promise 등 JS 동기화 문법에 대해서 공부하여 적용하였다. 서버 단에서 데이터를 받아온 이후에 그 데이터 관련 작업을 시행하였다.
-
-- 촌 수 계산 프로그램을 구현 할 때 데이터들의 자료구조, 필요한 알고리즘을 설정하는 데에 어려움을 겪었다.
-
-    → 알고리즘을 설계 할 때 될 것 같은데? 가 아니라, 된다. 의 수준의 확신이 들었을 때에 코드를 짜야 겠다. 이론적으로만 (a.k.a 뇌피셜) 진행하게 되니 구멍이 많아 개발 도중에 멈춰 다시 브레인스토밍을 해야 했다.
+- emit 시 모든 소켓에게 데이터를 전송하게 되어 다른 채팅방에 있어도 채팅이 업데이트 되는 문제가 생겼다.
+    - io.emit이라는 메소드가 현재 소켓 풀에 있는 모든 소켓에게 메세지를 보내기 때문에 발생했다. 검색을 해 보니 join이라는 메서드가 있었다. 소켓을 채팅방 처럼 join으로 방을 만들어, 그 방에 있는 소켓들에게만 메세지를 보낼 수 있었다.
+    - 채팅 방을 입장할 시에, 소켓을 연결한다. 서버에 채팅방의 ID를 소켓에 토큰으로 보낸다. 서버에서 io.on으로 connection을 감지 할 때에 소켓에서 보낸 토큰(roomID)로 join을 시킨다.
+    - 클라이언트가 채팅 메세지를 보내면 io.to(roomId).emit으로 특정 room 안에만 있는 소켓에게만 메세지를 보낸다!
+- AsyncTask의 request가 너무 많아 서버에 부하가 걸려 서버가 다운이 되었다.
+    - 
 
 # 배운점/느낀점
 
-- 이론으로만 배웠던 알고리즘을 실제로 기능을 구현할 수 있어서 좋았다. 기존 알고리즘을 그대로 가져다 쓰는 게 아니라, 프로젝트에 맞춰 알고리즘을 수정하여 적용할 수 있어서 배울 점이 많았다.
-- 디자인 패턴을 적용하려고 했지만 이해도가 낮은 상태에서 프로젝트에 적용하기엔 어려웠다. toy project에서부터 패턴을 적용해보는 공부가 필요한 것 같다.
+- 
 
 # 공부한 내용
 
-[https://forbid403.github.io/til/1227-TIL/](https://forbid403.github.io/til/1227-TIL/)
+[https://forbid403.github.io/til/0102-TIL/](https://forbid403.github.io/til/0102-TIL/)
 
-[https://forbid403.github.io/til/1228-TIL/](https://forbid403.github.io/til/1228-TIL/)
+[https://forbid403.github.io/til/0103-TIL/](https://forbid403.github.io/til/0103-TIL/)
 
-[https://forbid403.github.io/til/1229-TIL/](https://forbid403.github.io/til/1229-TIL/)
-
-[https://forbid403.github.io/til/1230-TIL/](https://forbid403.github.io/til/1230-TIL/)
-
-[https://forbid403.github.io/til/1231-TIL/](https://forbid403.github.io/til/1231-TIL/)
+[https://forbid403.github.io/til/0104-TIL/](https://forbid403.github.io/til/0104-TIL/)
